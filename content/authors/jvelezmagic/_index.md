@@ -26,8 +26,11 @@ interests:
 - Literate programming
 
 organizations:
-- name: saezlab
+- name: Peña-Miller Lab
+  url: http://www.penamiller.com/lab/
+- name: Saez-Rodriguez Group
   url: https://saezlab.org/
+
   
 role: Genomic Scientist
 
@@ -39,8 +42,11 @@ social:
   icon_pack: fab
   link: https://github.com/jvelezmagic
 - icon: orcid
-  icon_pack: ai
+  icon_pack: fab
   link: http://orcid.org/0000-0001-5128-3838
+- icon: instagram
+  icon_pack: fab
+  link: https://www.instagram.com/genomicmagician/
 ---
 
 I am a Genomic scientist. I love creating unique platforms for sharing knowledge and data-driven insights, from websites to presentations and everything in between. I am known for being a compassionate leader and enthusiastic collaborator, and for making user-facing experiences that engage and delight.
