@@ -16,23 +16,23 @@ site_type: Person
 local_business_type: ''
 org_name: ''
 description: ''
-twitter: ''
+twitter: 'jvelezmagic'
 
 # Contact (edit or remove options as required)
 
-email: test@example.org
-phone: 888 888 88 88
+email: jvelezmagic@gmail.com
+# phone: 
 address:
-  street: 450 Serra Mall
-  city: Stanford
-  region: CA
-  postcode: '94305'
-  country: United States
-  country_code: US
+  street: Av. Universidad s/n
+  city: Cuernavaca
+  region: Morelos
+  postcode: '62261xw'
+  country: Mexico
+  country_code: MEX
 coordinates:
-  latitude: '37.4275'
-  longitude: '-122.1697'
-directions: Enter Building 1 and take the stairs to Office 200 on Floor 2
+  latitude: '18.983285925532865'
+  longitude: '-99.23521298364383'
+directions: Just ask for the LCG center.
 office_hours:
   - 'Monday 10:00 to 13:00'
   - 'Wednesday 09:00 to 10:00'
@@ -41,7 +41,7 @@ contact_links:
   - icon: twitter
     icon_pack: fab
     name: DM Me
-    link: 'https://twitter.com/Twitter'
+    link: 'https://twitter.com/jvelezmagic'
   - icon: skype
     icon_pack: fab
     name: Skype Me
