@@ -26,7 +26,7 @@ address:
   street: Av. Universidad s/n
   city: Cuernavaca
   region: Morelos
-  postcode: '62261xw'
+  postcode: '62261'
   country: Mexico
   country_code: MEX
 coordinates:
@@ -34,26 +34,12 @@ coordinates:
   longitude: '-99.23521298364383'
 directions: Just ask for the LCG center.
 office_hours:
-  - 'Monday 10:00 to 13:00'
-  - 'Wednesday 09:00 to 10:00'
-appointment_url: 'https://calendly.com'
+  - 'Monday to friday 9:00 to 14:00'
 contact_links:
   - icon: twitter
     icon_pack: fab
     name: DM Me
     link: 'https://twitter.com/jvelezmagic'
-  - icon: skype
-    icon_pack: fab
-    name: Skype Me
-    link: 'skype:echo123?call'
-  - icon: keybase
-    icon_pack: fab
-    name: Chat on Keybase
-    link: 'https://keybase.io/'
-  - icon: comments
-    icon_pack: fas
-    name: Discuss on Forum
-    link: 'https://discourse.gohugo.io'
 
 # Site header
 
