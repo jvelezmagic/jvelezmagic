@@ -43,4 +43,4 @@ social:
   link: http://orcid.org/0000-0001-5128-3838
 ---
 
-I am a Genomic scientist. I love creating [unique platforms](/projects) for sharing knowledge and data-driven insights, from websites to presentations and everything in between. I am known for being a compassionate leader and enthusiastic collaborator, and for making user-facing experiences that engage and delight.
+I am a Genomic scientist. I love creating unique platforms for sharing knowledge and data-driven insights, from websites to presentations and everything in between. I am known for being a compassionate leader and enthusiastic collaborator, and for making user-facing experiences that engage and delight.
