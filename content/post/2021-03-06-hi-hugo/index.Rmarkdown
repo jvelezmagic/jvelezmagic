@@ -1,0 +1,48 @@
+---
+title: Hi Hugo
+author: Jesús Vélez
+date: '2021-03-06'
+slug: hi-hugo
+categories: []
+tags: ["R"]
+subtitle: ''
+summary: ''
+authors: ["Jesús Vélez"]
+lastmod: '2021-03-06T20:34:32-06:00'
+featured: no
+image:
+  caption: ''
+  focal_point: ''
+  preview_only: no
+projects: []
+---
+
+## Load libraries
+
+```{r}
+library(ggplot2)
+```
+
+## Data summary
+
+```{r}
+summary(Orange)
+```
+
+## Visualize data
+
+```{r, echo=FALSE}
+ggplot(
+    Orange,
+    aes(
+        x = age,
+        y = circumference,
+        colour = Tree
+    )
+) +
+    geom_point() +
+    geom_line() +
+    guides(colour = FALSE) +
+    theme_bw()
+```
+
