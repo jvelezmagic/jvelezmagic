@@ -17,6 +17,8 @@ image:
 projects: []
 ---
 
+
+
 ## Load libraries
 
 
@@ -29,9 +31,6 @@ library(ggplot2)
 
 ```r
 summary(Orange)
-```
-
-```
 ##  Tree       age         circumference  
 ##  3:7   Min.   : 118.0   Min.   : 30.0  
 ##  1:7   1st Qu.: 484.0   1st Qu.: 65.5  
