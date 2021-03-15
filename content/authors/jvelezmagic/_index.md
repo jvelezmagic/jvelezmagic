@@ -18,12 +18,11 @@ education:
     year: 2021
 email: "jvelezmagic@gmail.com"
 interests:
-- Knowledge sharing
-- Mentoring
 - Data analysis
 - Data visualization
 - Machine learning
-- Literate programming
+- Mentoring
+- Software development
 
 organizations:
 - name: Peña-Miller Lab
@@ -49,4 +48,8 @@ social:
   link: https://www.instagram.com/genomicmagician/
 ---
 
-I am a Genomic scientist. I love creating unique platforms for sharing knowledge and data-driven insights, from websites to presentations and everything in between. I am known for being a compassionate leader and enthusiastic collaborator, and for making user-facing experiences that engage and delight.
+I am a Genomic Scientist which loves programming and learning about software
+development. I am known for being a passionate, curios person and be always open
+to new challednges. Do you have any challenge?
+Good! Let's do it. Let's be problem solvers.
+:man_technologist: :monocle_face: :owl: :sparkles: 
