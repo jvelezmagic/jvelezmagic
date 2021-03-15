@@ -10,7 +10,7 @@ authors:
 # Is this the primary user of the site?
 superuser: true
 
-bio: I am an undergraduate student in Genomic Sciences, and researcher who loves programming.
+bio: Curious and passionate. Open to new challenges.  Lover of programming and software development. Let's be problem solvers.
 education:
   courses:
   - course: BSc in Genomic Sciences
@@ -51,7 +51,7 @@ social:
 I am a Genomic Scientist. I love analyzing and visualizing data to improve our
 understanding of what is around us. Besides, I am fascinated by software
 development, and I hope to contribute useful packages to the scientific
-community one day. I am known for being a passionate, curios person and
-be always open to new challednges. Do you have any challenge?
+community one day. I am known for being a passionate, curious person and
+be always open to new challenges. Do you have any challenge?
 Good! Let's do it. Let's be problem solvers.
 :man_technologist: :monocle_face: :owl: :sparkles: 
