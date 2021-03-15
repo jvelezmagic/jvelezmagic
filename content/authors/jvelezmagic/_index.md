@@ -46,6 +46,9 @@ social:
 - icon: instagram
   icon_pack: fab
   link: https://www.instagram.com/genomicmagician/
+- icon: cv
+  icon_pack: ai
+  link: media/files/jvelezmagic_cv.pdf
 ---
 
 I am a Genomic Scientist. I love analyzing and visualizing data to improve our

@@ -25,5 +25,3 @@ main:
   - name: Contact
     url: '#contact'
     weight: 70
-  - name: CV
-    url: "media/files/jvelezmagic_cv.pdf"
