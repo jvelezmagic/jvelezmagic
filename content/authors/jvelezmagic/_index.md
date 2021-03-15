@@ -48,8 +48,10 @@ social:
   link: https://www.instagram.com/genomicmagician/
 ---
 
-I am a Genomic Scientist which loves programming and learning about software
-development. I am known for being a passionate, curios person and be always open
-to new challednges. Do you have any challenge?
+I am a Genomic Scientist. I love analyzing and visualizing data to improve our
+understanding of what is around us. Besides, I am fascinated by software
+development, and I hope to contribute useful packages to the scientific
+community one day. I am known for being a passionate, curios person and
+be always open to new challednges. Do you have any challenge?
 Good! Let's do it. Let's be problem solvers.
 :man_technologist: :monocle_face: :owl: :sparkles: 
