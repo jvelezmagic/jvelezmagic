@@ -78,4 +78,9 @@ iris_clean %>%
     )
 ```
 
+## Session info
+
+```{r session_info, echo=FALSE}
+sessioninfo::session_info()
+```
 
