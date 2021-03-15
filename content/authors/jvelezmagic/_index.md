@@ -41,11 +41,8 @@ social:
   icon_pack: fab
   link: https://github.com/jvelezmagic
 - icon: orcid
-  icon_pack: fab
+  icon_pack: ai
   link: http://orcid.org/0000-0001-5128-3838
-- icon: instagram
-  icon_pack: fab
-  link: https://www.instagram.com/genomicmagician/
 - icon: cv
   icon_pack: ai
   link: media/files/jvelezmagic_cv.pdf
