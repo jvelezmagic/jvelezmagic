@@ -10,7 +10,8 @@ authors:
 # Is this the primary user of the site?
 superuser: true
 
-bio: Curious and passionate. Open to new challenges.  Lover of programming and software development. Let's be problem solvers.
+bio: Curious and passionate. Open to new challenges. Lover of programming
+ and software development. Let's be problem solvers.
 education:
   courses:
   - course: BSc in Genomic Sciences
