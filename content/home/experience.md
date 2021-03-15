@@ -35,7 +35,7 @@ experience:
         Responsibilities include:
         
         * Analyzing
-        * Modelling
+        * Modeling
         * Deploying
 
   - title: Undergraduate Thesis Student
@@ -48,6 +48,6 @@ experience:
         Responsibilities include:
         
         * Analyzing
-        * Modelling
+        * Modeling
         * Writing
 ---
