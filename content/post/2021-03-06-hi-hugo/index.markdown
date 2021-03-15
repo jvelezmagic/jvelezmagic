@@ -3,7 +3,7 @@ title: Hi Hugo
 author: Jesús Vélez
 date: '2021-03-06'
 slug: hi-hugo
-categories: []
+categories: ["R"]
 tags: ["R"]
 subtitle: ''
 summary: ''
