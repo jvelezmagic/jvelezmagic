@@ -21,7 +21,7 @@ options(
   # post configuration
   blogdown.author = "Jesús Vélez",
   blogdown.ext = ".Rmarkdown",
-  blogdown.subdir = "blog"
+  blogdown.subdir = "post"
 )
 
 # fix Hugo version
