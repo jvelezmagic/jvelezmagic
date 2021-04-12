@@ -15,8 +15,9 @@ links:
   icon_pack: fab
   name: Code
   url: https://github.com/jvelezmagic/titanic_platzi
+location: Platzi Live Classes
 publishDate: "2021-04-07goT00:00:00Z"
-summary: An example talk using Wowchemy's Markdown slides feature.
+summary: Learn how to use pandas and the ecosystem constructed around it to build human-readable workflows.
 tags: [conda, cookiecutter, pandas, python, data science]
 title: Pandas and its ecosystem for data science
 url_code: ""
@@ -24,3 +25,7 @@ url_pdf: ""
 url_slides: "https://docs.google.com/presentation/d/e/2PACX-1vRPC-A_GeqZC9XV5tZNRulc9Cyj_u7uulD_GH__zuhVBfz57T0ImywwDTqm7EV7Q3bL3abfXgPiyeiv/embed?start=false&loop=false&delayms=3000"
 url_video: ""
 ---
+
+{{% callout note %}}
+Unfortunately the class could not be recorded, but the presentation and code used are available. Why don't you go and check them out for a bit? 😋
+{{% /callout %}}
