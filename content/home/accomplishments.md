@@ -33,7 +33,7 @@ item:
   organization: DataCamp
   organization_url: https://www.datacamp.com
   title: 'Data Analyst with R Track'
-  url: ""
+  url: "https://www.datacamp.com/tracks/data-analyst-with-r"
 - certificate_url: https://www.datacamp.com/statement-of-accomplishment/track/488153ddf361f47072290969607eeedb5d31d95c
   date_end: "2019-02-22"
   date_start: "2019-02-22"
@@ -41,5 +41,5 @@ item:
   organization: DataCamp
   organization_url: https://www.datacamp.com
   title: 'R Programmer Track'
-  url: ""
+  url: "https://www.datacamp.com/tracks/r-programmer"
 ---
