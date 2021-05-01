@@ -139,19 +139,20 @@ add_custom_credits <- function(hc) {
     text = "<b>Dataviz by:</b> @jvelezmagic",
     href = "https://twitter.com/jvelezmagic",
     enabled = TRUE
-  ) %>% 
-    hc_chart(
-      events = list(
-        load = JS("
-          function() {
-            this.credits.element.onclick = function() {
-              window.open('https://twitter.com/jvelezmagic', '_blank');
-            }
-          }
-          "
-        )
-      )
-    )
+  ) %>%
+    # hc_chart(
+    #   events = list(
+    #     load = JS("
+    #       function() {
+    #         this.credits.element.onclick = function() {
+    #           window.open('https://twitter.com/jvelezmagic', '_blank');
+    #         }
+    #       }
+    #       "
+    #     )
+    #   )
+    # ) %>%
+    identity()
 }
 ```
 
@@ -514,6 +515,6 @@ departures_words_plot %>%
     ##  P zoo            1.8-9   2021-03-09 [?] CRAN (R 4.0.2)
     ## 
     ## [1] /Users/jvelezmagic/Documents/Github/personal_projects/jvelezmagic/renv/library/R-4.0/x86_64-apple-darwin17.0
-    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/RtmpIaxosD/renv-system-library
+    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/Rtmp1stgzE/renv-system-library
     ## 
     ##  P ── Loaded and on-disk path mismatch.
