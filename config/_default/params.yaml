@@ -21,7 +21,7 @@ twitter: 'jvelezmagic'
 # Contact (edit or remove options as required)
 
 # email: jvelezmagic@gmail.com
-# phone: 
+# phone:
 address:
   street: Av. Universidad s/n
   city: Cuernavaca
@@ -65,7 +65,7 @@ highlight_languages:
   - r
   - python
   - latex
-highlight_style: night-owl
+highlight_style: tomorrow
 math: false
 diagram: false
 privacy_pack: false

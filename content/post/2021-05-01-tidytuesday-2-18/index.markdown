@@ -1,9 +1,9 @@
 ---
-title: "Tidytuesday - CEOs departures"
+title: "Using Highcharter in #TidyTuesday CEOs departures"
 author: Jesús Vélez
 date: '2021-05-01'
 slug: tidytuesday-2-18
-categories: ["R", "tidyduesday", "dataviz"]
+categories: ["R", "TidyTuesday", "dataviz"]
 tags: []
 subtitle: 'Season 2 - Week 18'
 summary: 'Tidytuesday - 2 - 18 - The data this week comes from Gentry et al. by way of DataIsPlural. Learn how to use Highcharter, a wrapper for Highcharts javascript library and its modules.'
@@ -19,10 +19,10 @@ links:
 - icon: github
   icon_pack: fab
   name: Code
-  url: https://github.com/jvelezmagic/
+  url: https://github.com/jvelezmagic/jvelezmagic/blob/main/content/post/2021-05-01-tidytuesday-2-18/index.Rmarkdown
 - icon: twitter
   icon_pack: fab
-  name: Follow
+  name: Post
   url: https://twitter.com/jvelezmagic
 ---
 
@@ -497,6 +497,6 @@ departures_words_plot %>%
     ##  P zoo            1.8-9   2021-03-09 [?] CRAN (R 4.0.2)
     ## 
     ## [1] /Users/jvelezmagic/Documents/Github/personal_projects/jvelezmagic/renv/library/R-4.0/x86_64-apple-darwin17.0
-    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/RtmpGChaDH/renv-system-library
+    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/RtmpTDBylR/renv-system-library
     ## 
     ##  P ── Loaded and on-disk path mismatch.
