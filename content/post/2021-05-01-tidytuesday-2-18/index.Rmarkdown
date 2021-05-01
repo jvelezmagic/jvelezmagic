@@ -318,7 +318,8 @@ departures_words_plot %>%
   # Credits ---------------------------------------------------------------
   add_custom_credits() %>%
   # Display as iframe -----------------------------------------------------
-  frameWidget()
+  #frameWidget() %>% 
+  identity()
 ```
 
 ## Session info
