@@ -1,0 +1,329 @@
+---
+title: "Tidytuesday - CEOs departures"
+author: Jesús Vélez
+date: '2021-05-01'
+slug: tidytuesday-2-18
+categories: ["R", "tidyduesday", "dataviz"]
+tags: []
+subtitle: 'Season 2 - Week 18'
+summary: 'Tidytuesday - 2 - 18 - The data this week comes from Gentry et al. by way of DataIsPlural. Learn how to use Highcharter, a wrapper for Highcharts javascript library and its modules.'
+authors: []
+lastmod: '2021-05-01T16:48:00-05:00'
+featured: no
+image:
+  caption: 'Image of blurred moving people walking through an office lobby'
+  focal_point: ''
+  preview_only: no
+projects: []
+links:
+- icon: github
+  icon_pack: fab
+  name: Code
+  url: https://github.com/jvelezmagic/
+- icon: twitter
+  icon_pack: fab
+  name: Follow
+  url: https://twitter.com/jvelezmagic
+---
+
+## CEO departures
+
+The data this week comes from [Gentry et al.](https://onlinelibrary.wiley.com/doi/abs/10.1002/smj.3278) by way of [DataIsPlural](https://www.data-is-plural.com/archive/2021-04-21-edition/).
+
+> We introduce an open‐source dataset documenting the reasons for CEO departure in S&P 1500 firms from 2000 through 2018. In our dataset, we code for various forms of voluntary and involuntary departure. We compare our dataset to three published datasets in the CEO succession literature to assess both the qualitative and quantitative differences among them and to explore how these differences impact empirical findings associated with the performance‐CEO dismissal relationship. The dataset includes eight different classifications for CEO turnover, a narrative description of each departure event, and links to sources used in constructing the narrative so that future researchers can validate or adapt the coding. The resulting data are available at (https://doi.org/10.5281/zenodo.4543893).
+>
+> This revision includes potentially relevant 8k filings from 270 days before and after the CEO's departure date. These filings were not all useful for understanding the departure, but might be useful in general.
+
+Another article from [investors.com](https://www.investors.com/news/ceo-turnover-bailing-out-droves/).
+
+## Libraries
+
+```{r libraries, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(tidytext)
+library(tidytuesdayR)
+library(stopwords)
+library(widgetframe)
+library(highcharter)
+```
+
+## Download data
+
+```{r download_data, message=FALSE, warning=FALSE, results='hide'}
+tuesday_data <- tt_load(x = 2021, week = 18)
+```
+
+## Extract data to use
+
+```{r extract_data_needed}
+departures <- tuesday_data$departures %>% 
+  glimpse()
+```
+
+## General preprocessing
+
+```{r general_preprocessing}
+departures_processed <- departures %>%
+  select(fyear, departure_code, notes) %>%
+  filter(
+      departure_code < 9,
+      fyear > 1995,
+      fyear < 2019
+  ) %>%
+  mutate(
+      involuntary = if_else(
+        condition = departure_code %in% 3:4,
+        true = "Involuntary",
+        false = "Other"
+      ),
+      departure_code = fct_recode(
+        .f = factor(departure_code),
+          "Death" = "1",
+          "Illness" = "2",
+          "Job performance" = "3",
+          "Legal violations or concerns" = "4",
+          "Retired" = "5",
+          "New opportunity" = "6",
+          "Other" = "7",
+          "Missing" = "8"
+      )
+  ) %>%
+  glimpse()
+```
+
+## Create custom credits for plots
+
+```{r}
+add_custom_credits <- partial(
+  hc_credits,
+  text = "<b>Dataviz by:</b> @jvelezmagic",
+  href = "https://twitter.com/jvelezmagic",
+  enabled = TRUE
+)
+```
+
+## CEOs departures
+
+### Prepare data for plot
+
+```{r collapse_categories}
+involuntary_departures <- departures_processed %>%
+  count(fyear, involuntary) %>% 
+  glimpse()
+```
+
+### Create interactive line plot
+
+```{r line_plot}
+involuntary_departures %>%
+  # Plot specifications -----------------------------------------------------
+  hchart(
+    type = "line",
+    hcaes(x = fyear, y = n, group = involuntary)
+  ) %>%
+  hc_tooltip(
+    crosshairs = TRUE,
+    shared = TRUE
+  ) %>% 
+  # Text annotations --------------------------------------------------------
+  hc_title(
+    text = "CEOs departures"
+  ) %>%
+  hc_xAxis(
+    title = list(text = "Year"),
+    plotBands = list(
+      list(
+        label = list(
+          text = "Global<br>crisis",
+          style = list(
+            color = "white",
+            fontWeight = "bold"
+          ),
+          useHTML = TRUE
+        ),
+        color = "rgba(256,0,0,0.4)",
+        fillOpacity = 0.5,
+        from = 2006,
+        to = 2008
+      )
+    )
+  ) %>%
+  hc_yAxis(
+    title = list(text = "Number of CEOs departures")
+  ) %>%
+  # Credits -----------------------------------------------------------------
+  add_custom_credits() %>%
+  # Display as iframe -------------------------------------------------------
+  frameWidget()
+```
+
+## Historical CEOs departures by category
+
+### Prepare data for plot
+
+```{r treemap_data_processing}
+departures_treemap_plot <- departures_processed %>%
+  mutate(
+    fyear = as.character(fyear),
+    value = 1
+  ) %>%
+  data_to_hierarchical(
+    group_vars = c(departure_code, fyear),
+    size_var = value
+  )
+
+departures_treemap_plot[[1]] %>% 
+  glimpse()
+```
+
+### Create nested treemap
+
+```{r treemap}
+# Plot specification --------------------------------------------------------
+hchart(
+  departures_treemap_plot,
+  type = "treemap",
+  ## Global configuration ---------------------------------------------------
+  dataLabels = list(
+    enabled = FALSE
+  ),
+  ## Modify levels appearance -----------------------------------------------
+  allowDrillToNode = TRUE,
+  levelIsConstant = FALSE,
+  levels = list(
+    list(
+      level = 1,
+      borderWidth = 4,
+      dataLabels = list(
+        enabled = TRUE,
+        style = list(
+          fontSize = "14px"
+        )
+      )
+    ),
+    list(
+      level = 2,
+      dataLabels = list(
+        enabled = FALSE
+      ),
+      colorVariation = list(
+        key = "brightness",
+        to = 0.25
+      )
+    )
+  )
+) %>%
+  # Text annotations --------------------------------------------------------
+  hc_title(
+    text = "CEOs departures by category"
+  ) %>%
+  # Credits -----------------------------------------------------------------
+  add_custom_credits() %>%
+  # Display as iframe -------------------------------------------------------
+  frameWidget()
+```
+
+## Why CEOs leave the company?
+
+### Text processing
+
+```{r text_processing, message=FALSE}
+departures_words <- departures_processed %>%
+  select(departure_code, notes) %>%
+  unnest_tokens(output = word, input = notes) %>%
+  anti_join(y = get_stopwords()) %>%
+  inner_join(y = get_sentiments(lexicon = "bing")) %>%
+  count(departure_code, word) %>%
+  glimpse()
+```
+
+### Prepare data for plot
+
+```{r wordcloud_data_processing}
+departures_words_plot <- departures_words %>%
+  group_nest(departure_code) %>%
+  mutate(
+    id = departure_code,
+    type = "wordcloud",
+    data = map(data, mutate, name = word, weight = log(n)),
+    data = map(data, list_parse),
+    n = lengths(data)
+  ) %>%
+  glimpse()
+```
+
+### Create interactive Word Cloud
+
+```{r wordcloud}
+departures_words_plot %>%
+  # Plot specification ------------------------------------------------------
+  ## First level ------------------------------------------------------------
+  hchart(
+    type = "wordcloud",
+    name = "Categories",
+    hcaes(
+      name = departure_code,
+      weight = log(n),
+      drilldown = departure_code
+    )
+  ) %>%
+  ## Second level -----------------------------------------------------------
+  hc_drilldown(
+    allowPointDrilldown = TRUE,
+    series = list_parse(departures_words_plot)
+  ) %>%
+  # Text annotations --------------------------------------------------------
+  ## Main title -------------------------------------------------------------
+  hc_title(
+    text = "CEOs, You are fired! But wait ... why?"
+  ) %>% 
+  ## Insert and remove title when drilldown ---------------------------------
+  hc_chart(
+    type = "column",
+    events = list(
+      drilldown = JS("
+        function(e) {
+          this.update(
+            {
+              title: {
+                text: e.seriesOptions.id
+              }
+            }
+          )
+        }
+      "
+      ),
+      drillup = JS("
+        function() {
+          this.update(
+            {
+              title: {
+                text: 'CEOs, You are fired! But wait ... why?' 
+              }
+            }
+          )
+        }
+      "
+      )
+    )
+  ) %>%
+  ## Configure how tooltip is displayed -------------------------------------
+  hc_tooltip(
+    pointFormat = tooltip_table(
+      x = c("Word count:  "),
+      y = c("{point.n}")
+    ),
+    useHTML = TRUE
+  ) %>%
+  # Credits ---------------------------------------------------------------
+  add_custom_credits() %>%
+  # Display as iframe -----------------------------------------------------
+  frameWidget()
+```
+
+## Session info
+
+```{r session_info, echo=FALSE}
+sessioninfo::session_info()
+```
+
