@@ -101,19 +101,18 @@ add_custom_credits <- function(hc) {
     href = "https://twitter.com/jvelezmagic",
     enabled = TRUE
   ) %>%
-    # hc_chart(
-    #   events = list(
-    #     load = JS("
-    #       function() {
-    #         this.credits.element.onclick = function() {
-    #           window.open('https://twitter.com/jvelezmagic', '_blank');
-    #         }
-    #       }
-    #       "
-    #     )
-    #   )
-    # ) %>%
-    identity()
+    hc_chart(
+      events = list(
+        load = JS("
+          function() {
+            this.credits.element.onclick = function() {
+              window.open('https://twitter.com/jvelezmagic', '_blank');
+            }
+          }
+          "
+        )
+      )
+    )
 }
 ```
 
