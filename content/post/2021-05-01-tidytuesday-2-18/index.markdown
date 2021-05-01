@@ -133,12 +133,26 @@ departures_processed <- departures %>%
 ## Create custom credits for plots
 
 ``` r
-add_custom_credits <- partial(
-  hc_credits,
-  text = "<b>Dataviz by:</b> @jvelezmagic",
-  href = "https://twitter.com/jvelezmagic",
-  enabled = TRUE
-)
+add_custom_credits <- function(hc) {
+  hc_credits(
+    hc = hc,
+    text = "<b>Dataviz by:</b> @jvelezmagic",
+    href = "https://twitter.com/jvelezmagic",
+    enabled = TRUE
+  ) %>% 
+    hc_chart(
+      events = list(
+        load = JS("
+          function() {
+            this.credits.element.onclick = function() {
+              window.open('https://twitter.com/jvelezmagic', '_blank');
+            }
+          }
+          "
+        )
+      )
+    )
+}
 ```
 
 ## CEOs departures
@@ -347,6 +361,9 @@ departures_words_plot %>%
   ## Main title -------------------------------------------------------------
   hc_title(
     text = "CEOs, You are fired! But wait ... why?"
+  ) %>%
+  hc_subtitle(
+    text = "Click to drill down"
   ) %>% 
   ## Insert and remove title when drilldown ---------------------------------
   hc_chart(
@@ -497,6 +514,6 @@ departures_words_plot %>%
     ##  P zoo            1.8-9   2021-03-09 [?] CRAN (R 4.0.2)
     ## 
     ## [1] /Users/jvelezmagic/Documents/Github/personal_projects/jvelezmagic/renv/library/R-4.0/x86_64-apple-darwin17.0
-    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/RtmptFWvjU/renv-system-library
+    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/RtmpIaxosD/renv-system-library
     ## 
     ##  P ── Loaded and on-disk path mismatch.

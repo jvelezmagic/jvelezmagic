@@ -94,12 +94,26 @@ departures_processed <- departures %>%
 ## Create custom credits for plots
 
 ```{r}
-add_custom_credits <- partial(
-  hc_credits,
-  text = "<b>Dataviz by:</b> @jvelezmagic",
-  href = "https://twitter.com/jvelezmagic",
-  enabled = TRUE
-)
+add_custom_credits <- function(hc) {
+  hc_credits(
+    hc = hc,
+    text = "<b>Dataviz by:</b> @jvelezmagic",
+    href = "https://twitter.com/jvelezmagic",
+    enabled = TRUE
+  ) %>% 
+    hc_chart(
+      events = list(
+        load = JS("
+          function() {
+            this.credits.element.onclick = function() {
+              window.open('https://twitter.com/jvelezmagic', '_blank');
+            }
+          }
+          "
+        )
+      )
+    )
+}
 ```
 
 ## CEOs departures
@@ -276,6 +290,9 @@ departures_words_plot %>%
   ## Main title -------------------------------------------------------------
   hc_title(
     text = "CEOs, You are fired! But wait ... why?"
+  ) %>%
+  hc_subtitle(
+    text = "Click to drill down"
   ) %>% 
   ## Insert and remove title when drilldown ---------------------------------
   hc_chart(
@@ -326,4 +343,3 @@ departures_words_plot %>%
 ```{r session_info, echo=FALSE}
 sessioninfo::session_info()
 ```
-
