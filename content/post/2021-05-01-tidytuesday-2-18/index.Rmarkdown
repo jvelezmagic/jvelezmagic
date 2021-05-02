@@ -270,7 +270,7 @@ departures_treemap_plot[[100]] %>%
 
 ### Create nested treemap
 
-First I defined that the type of visualization I want is a `treemap`.
+First I defined that the type of visualization I wanted was a `treemap`.
 The global call to `dataLabels` says that, by default, don't paint any labels in
 sight. This will allow customizing the order of appearance of our labels in each
 hierarchical layer.
@@ -280,7 +280,7 @@ of my categories to make it more apparent where each one started and ended.
 
 Parameter `allowDrillToNode` allows you to click on a point and access to the
 next hierarchical level of the data. In our case, we only have two levels,
-`departures_code` and` fyear`, but they could be more. 🤓
+`departures_code` and `fyear`, but they could be more. 🤓
 
 ```{r treemap}
 # Plot specification --------------------------------------------------------
