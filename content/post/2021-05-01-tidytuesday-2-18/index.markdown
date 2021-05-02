@@ -273,7 +273,34 @@ involuntary_departures %>%
 
 ## Historical CEOs departures by category
 
+I wondered how all CEOs are distributed collectively in the data by their
+departure code. Here I had many display options, `bars`, `sunburst`, `treemap`,
+among others.
+
+Choosing a visualization that allows you to see exactly what you need without
+worrying about the details is important. In my case, I just wanted to make
+`treemaps` for fun, but I could make any other.
+
+{{% callout note %}}
+`treemaps` can be useful when:
+
+-   You want to observe relationships among a large number of categories.
+-   Precision in comparisons is not that important.
+-   Your data is hierarchical.
+    {{% /callout %}}
+
+In my case, I did not consider precise comparisons between categories important
+at this point in the scan. The `treemap` allowed me to quickly determine how CEOs
+departures codes were distributed.
+
 ### Prepare data for plot
+
+In order for `highcharter` to understand our data, we must transform it to a list
+containing which objects are parents and which are children, which in javascript could be a `JSON` or `dictionary`.
+
+To solve this, `highcharter` provides `data_to_hierarchical()` shortcut that
+allows you to directly obtain the format needed to create a `treemap` or a
+`sunburst`. 😋✨
 
 ``` r
 departures_treemap_plot <- departures_processed %>%
@@ -286,17 +313,30 @@ departures_treemap_plot <- departures_processed %>%
     size_var = value
   )
 
-departures_treemap_plot[[1]] %>% 
+departures_treemap_plot[[100]] %>% 
   glimpse()
 ```
 
-    ## List of 4
-    ##  $ name : chr "Retired"
-    ##  $ id   : chr "retired"
-    ##  $ color: chr "#7cb5ec"
-    ##  $ level: int 1
+    ## List of 5
+    ##  $ name  : chr "2018"
+    ##  $ id    : chr "legal_violations_or_concerns_2018"
+    ##  $ parent: chr "legal_violations_or_concerns"
+    ##  $ value : num 8
+    ##  $ level : int 2
 
 ### Create nested treemap
+
+First I defined that the type of visualization I want is a `treemap`.
+The global call to `dataLabels` says that, by default, don’t paint any labels in
+sight. This will allow customizing the order of appearance of our labels in each
+hierarchical layer.
+
+In addition, I decided to add a bit of a separating border width between each
+of my categories to make it more apparent where each one started and ended.
+
+Parameter `allowDrillToNode` allows you to click on a point and access to the
+next hierarchical level of the data. In our case, we only have two levels,
+`departures_code` and`fyear`, but they could be more. 🤓
 
 ``` r
 # Plot specification --------------------------------------------------------
@@ -570,6 +610,6 @@ departures_words_plot %>%
     ##  P zoo            1.8-9   2021-03-09 [?] CRAN (R 4.0.2)
     ## 
     ## [1] /Users/jvelezmagic/Documents/Github/personal_projects/jvelezmagic/renv/library/R-4.0/x86_64-apple-darwin17.0
-    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/RtmpAdiYgQ/renv-system-library
+    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/Rtmp0ZXHLq/renv-system-library
     ## 
     ##  P ── Loaded and on-disk path mismatch.
