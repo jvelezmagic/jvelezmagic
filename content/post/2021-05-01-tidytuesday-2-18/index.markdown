@@ -157,7 +157,7 @@ departures_processed <- departures %>%
 Since I needed to generate multiple plots, I did not want to repeat myself and decided to include the process of adding credits with my brand in one place.
 
 {{% callout note %}}
-The `load = JS (" ... ")` section is not necessary in certain places.
+The `load = JS(" ... ")` section is not necessary in certain places.
 However, I decided to use it since in this blog the `iframes` that will be
 generated will try to open content within itself and will throw a error.
 In this way, I ensure that `target` is always a new tab. 🧐👉👈
@@ -611,6 +611,6 @@ departures_words_plot %>%
     ##  P zoo            1.8-9   2021-03-09 [?] CRAN (R 4.0.2)
     ## 
     ## [1] /Users/jvelezmagic/Documents/Github/personal_projects/jvelezmagic/renv/library/R-4.0/x86_64-apple-darwin17.0
-    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/RtmprgbFHI/renv-system-library
+    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/RtmpFu0oaT/renv-system-library
     ## 
     ##  P ── Loaded and on-disk path mismatch.

@@ -118,7 +118,7 @@ departures_processed <- departures %>%
 Since I needed to generate multiple plots, I did not want to repeat myself and decided to include the process of adding credits with my brand in one place.
 
 {{% callout note %}}
-The `load = JS (" ... ")` section is not necessary in certain places. 
+The `load = JS(" ... ")` section is not necessary in certain places. 
 However, I decided to use it since in this blog the `iframes` that will be
 generated will try to open content within itself and will throw a error.
 In this way, I ensure that `target` is always a new tab. 🧐👉👈
