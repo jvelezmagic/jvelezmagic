@@ -24,6 +24,10 @@ links:
   icon_pack: fab
   name: Post
   url: https://twitter.com/jvelezmagic
+- icon: medapps
+  icon_pack: fab
+  name: ShinyApp
+  url: https://jvelezmagic.shinyapps.io/ceo_departure/
 ---
 
 <script src="{{< blogdown/postref >}}index_files/htmlwidgets/htmlwidgets.js"></script>
@@ -676,6 +680,6 @@ departures_words_plot %>%
     ##  P zoo            1.8-9   2021-03-09 [?] CRAN (R 4.0.2)
     ## 
     ## [1] /Users/jvelezmagic/Documents/Github/personal_projects/jvelezmagic/renv/library/R-4.0/x86_64-apple-darwin17.0
-    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/RtmpuQtCXN/renv-system-library
+    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/RtmpuKvFgF/renv-system-library
     ## 
     ##  P ── Loaded and on-disk path mismatch.

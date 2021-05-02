@@ -24,6 +24,10 @@ links:
   icon_pack: fab
   name: Post
   url: https://twitter.com/jvelezmagic
+- icon: medapps
+  icon_pack: fab
+  name: ShinyApp
+  url: https://jvelezmagic.shinyapps.io/ceo_departure/
 ---
 
 ## CEO departures
