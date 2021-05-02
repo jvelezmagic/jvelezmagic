@@ -414,7 +414,7 @@ lexicon as the source from which they were extracted. Since the our data and the
 `anti_join()` of the tables to **remove** all those words that it did not require.
 
 Following the same logic described above, I made an `inner_join()` to **keep**
-only rthose words that were associated with some feeling given a lexicon.
+only those words that were associated with some feeling given a lexicon.
 This certainly narrowed my *corpus*, but for my mental question it worked to
 filter my observations instead of taking the global tops.
 Although, perhaps to build a model you might prefer to keep all the words and
@@ -440,6 +440,24 @@ departures_words <- departures_processed %>%
 
 ### Prepare data for plot
 
+I wanted to develop a word cloud where the first categories tell us how many words
+associated with feelings we find per category. After clicking on any of these, I
+wanted to show the word cloud of the words associated with those categories.
+
+First, I used `group_nest()` to create a tibble with two columns,
+`departure_code` and `data`. I added an `id` column that will be the one that
+connects our charts by level. `type` column will tell `highcharter` that the
+subplot I want is a word cloud as well.
+
+The first call to `map()` corresponds to creating two new columns to the data of
+our `data` column; `name` and `weight`, parameters described in the creation of
+a `wordcloud` type chart. The second call to `map()` is to convert each tibble
+into a highcharter-understandable list.
+
+Finally, I counted how many words each category contained. It should be noted
+that this new column n now exists both at the first and second levels, that is,
+within `data`, therefore we can use it to customize our `tooltips` with a better message. 🤫
+
 ``` r
 departures_words_plot <- departures_words %>%
   group_nest(departure_code) %>%
@@ -462,6 +480,22 @@ departures_words_plot <- departures_words %>%
     ## $ n              <int> 54, 94, 790, 263, 686, 76, 602, 34
 
 ### Create interactive Word Cloud
+
+First I defined that the type of chart I wanted was a `wordcloud`.
+Then I specified which columns to take the data from, similar to creating a
+graph with `ggplot2`. The `drilldown` parameter is who will say where to zoom to our data. 😉
+
+With `hc_drilldown()` we will define the `series` or subplots that we want to
+visualize. As you may have been imagining, we could add different levels with
+different graphics, for example going from a representation of bars to one of
+lines simply by configuring the formats of our series. 🤯
+
+Finally I set up the texts of the figure, specifying that, when it will enter
+the first level, the title will be updated and put the corresponding one for the
+category. Just to keep us in context of which words are from which category.
+On the other hand, I indicated that the `tooltip` will show the value of the
+variable `n`, present at level 1 and 2 of the data. Therefore, despite displaying
+the data on a logarithmic scale, we can display the absolute counts that are easier to interpret. 😬
 
 ``` r
 departures_words_plot %>%
@@ -640,6 +674,6 @@ departures_words_plot %>%
     ##  P zoo            1.8-9   2021-03-09 [?] CRAN (R 4.0.2)
     ## 
     ## [1] /Users/jvelezmagic/Documents/Github/personal_projects/jvelezmagic/renv/library/R-4.0/x86_64-apple-darwin17.0
-    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/Rtmp3kFrFr/renv-system-library
+    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/Rtmp49OZwv/renv-system-library
     ## 
     ##  P ── Loaded and on-disk path mismatch.
