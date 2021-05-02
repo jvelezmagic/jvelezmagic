@@ -22,8 +22,8 @@ links:
   url: https://github.com/jvelezmagic/jvelezmagic/blob/main/content/post/2021-05-01-tidytuesday-2-18/index.Rmarkdown
 - icon: twitter
   icon_pack: fab
-  name: Post
-  url: https://twitter.com/jvelezmagic
+  name: Post tweet
+  url: https://twitter.com/jvelezmagic/status/1388970182173995012
 - icon: medapps
   icon_pack: fab
   name: ShinyApp
@@ -693,6 +693,6 @@ departures_words_plot %>%
     ##  P zoo            1.8-9   2021-03-09 [?] CRAN (R 4.0.2)
     ## 
     ## [1] /Users/jvelezmagic/Documents/Github/personal_projects/jvelezmagic/renv/library/R-4.0/x86_64-apple-darwin17.0
-    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/Rtmp5rXvaB/renv-system-library
+    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/RtmpCRVtQN/renv-system-library
     ## 
     ##  P ── Loaded and on-disk path mismatch.
