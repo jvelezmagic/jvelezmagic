@@ -455,7 +455,7 @@ a `wordcloud` type chart. The second call to `map()` is to convert each tibble
 into a highcharter-understandable list.
 
 Finally, I counted how many words each category contained. It should be noted
-that this new column n now exists both at the first and second levels, that is,
+that this new column `n` now exists both at the first and second levels, that is,
 within `data`, therefore we can use it to customize our `tooltips` with a better message. 🤫
 
 ``` r
@@ -487,8 +487,8 @@ graph with `ggplot2`. The `drilldown` parameter is who will say where to zoom to
 
 With `hc_drilldown()` we will define the `series` or subplots that we want to
 visualize. As you may have been imagining, we could add different levels with
-different graphics, for example going from a representation of bars to one of
-lines simply by configuring the formats of our series. 🤯
+different graphics, for example going from a representation of `bars` to one of
+`lines` simply by configuring the formats of our series. 🤯
 
 Finally I set up the texts of the figure, specifying that, when it will enter
 the first level, the title will be updated and put the corresponding one for the
@@ -674,6 +674,6 @@ departures_words_plot %>%
     ##  P zoo            1.8-9   2021-03-09 [?] CRAN (R 4.0.2)
     ## 
     ## [1] /Users/jvelezmagic/Documents/Github/personal_projects/jvelezmagic/renv/library/R-4.0/x86_64-apple-darwin17.0
-    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/Rtmp49OZwv/renv-system-library
+    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/RtmpZxQZjy/renv-system-library
     ## 
     ##  P ── Loaded and on-disk path mismatch.
