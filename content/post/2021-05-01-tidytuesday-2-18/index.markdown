@@ -3,7 +3,7 @@ title: "Using Highcharter in TidyTuesday CEOs departures"
 author: Jesús Vélez
 date: '2021-05-01'
 slug: tidytuesday-2-18
-categories: ["R", "TidyTuesday", "dataviz"]
+categories: ["R", "rstats", "TidyTuesday", "dataviz"]
 tags: []
 subtitle: 'Season 2 - Week 18'
 summary: 'Tidytuesday - 2 - 18 - The data this week comes from Gentry et al. by way of DataIsPlural. Learn how to use Highcharter, a wrapper for Highcharts javascript library and its modules.'
@@ -680,6 +680,6 @@ departures_words_plot %>%
     ##  P zoo            1.8-9   2021-03-09 [?] CRAN (R 4.0.2)
     ## 
     ## [1] /Users/jvelezmagic/Documents/Github/personal_projects/jvelezmagic/renv/library/R-4.0/x86_64-apple-darwin17.0
-    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/RtmpuKvFgF/renv-system-library
+    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/RtmpRG3zEH/renv-system-library
     ## 
     ##  P ── Loaded and on-disk path mismatch.

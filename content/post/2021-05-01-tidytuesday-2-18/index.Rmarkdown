@@ -3,7 +3,7 @@ title: "Using Highcharter in TidyTuesday CEOs departures"
 author: Jesús Vélez
 date: '2021-05-01'
 slug: tidytuesday-2-18
-categories: ["R", "TidyTuesday", "dataviz"]
+categories: ["R", "rstats", "TidyTuesday", "dataviz"]
 tags: []
 subtitle: 'Season 2 - Week 18'
 summary: 'Tidytuesday - 2 - 18 - The data this week comes from Gentry et al. by way of DataIsPlural. Learn how to use Highcharter, a wrapper for Highcharts javascript library and its modules.'
