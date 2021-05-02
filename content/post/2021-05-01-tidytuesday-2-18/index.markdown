@@ -327,11 +327,12 @@ departures_treemap_plot[[100]] %>%
 ### Create nested treemap
 
 First I defined that the type of visualization I wanted was a `treemap`.
+
 The global call to `dataLabels` says that, by default, don’t paint any labels in
 sight. This will allow customizing the order of appearance of our labels in each
 hierarchical layer.
 
-In addition, I decided to add a bit of a separating border width between each
+Besides, I decided to add a bit of a separating border width between each
 of my categories to make it more apparent where each one started and ended.
 
 Parameter `allowDrillToNode` allows you to click on a point and access to the
@@ -610,6 +611,6 @@ departures_words_plot %>%
     ##  P zoo            1.8-9   2021-03-09 [?] CRAN (R 4.0.2)
     ## 
     ## [1] /Users/jvelezmagic/Documents/Github/personal_projects/jvelezmagic/renv/library/R-4.0/x86_64-apple-darwin17.0
-    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/Rtmpo9OCXc/renv-system-library
+    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/RtmprgbFHI/renv-system-library
     ## 
     ##  P ── Loaded and on-disk path mismatch.
