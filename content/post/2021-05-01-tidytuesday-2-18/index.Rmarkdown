@@ -183,8 +183,10 @@ involuntary_departures %>%
   # Plot specifications -----------------------------------------------------
   hchart(
     type = "line",
-    hcaes(x = fyear, y = n, group = involuntary)
+    hcaes(x = fyear, y = n, group = involuntary),
+    regression = TRUE
   ) %>%
+  hc_add_dependency("plugins/highcharts-regression.js") %>% 
   hc_tooltip(
     crosshairs = TRUE,
     shared = TRUE

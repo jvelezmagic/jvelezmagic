@@ -228,8 +228,10 @@ involuntary_departures %>%
   # Plot specifications -----------------------------------------------------
   hchart(
     type = "line",
-    hcaes(x = fyear, y = n, group = involuntary)
+    hcaes(x = fyear, y = n, group = involuntary),
+    regression = TRUE
   ) %>%
+  hc_add_dependency("plugins/highcharts-regression.js") %>% 
   hc_tooltip(
     crosshairs = TRUE,
     shared = TRUE
@@ -674,6 +676,6 @@ departures_words_plot %>%
     ##  P zoo            1.8-9   2021-03-09 [?] CRAN (R 4.0.2)
     ## 
     ## [1] /Users/jvelezmagic/Documents/Github/personal_projects/jvelezmagic/renv/library/R-4.0/x86_64-apple-darwin17.0
-    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/RtmpZxQZjy/renv-system-library
+    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/RtmpuQtCXN/renv-system-library
     ## 
     ##  P ── Loaded and on-disk path mismatch.
