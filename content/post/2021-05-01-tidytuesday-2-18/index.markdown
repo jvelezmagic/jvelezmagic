@@ -65,6 +65,8 @@ tuesday_data <- tt_load(x = 2021, week = 18)
 
 ## Extract data to use
 
+A full description of the data can be found [here](https://github.com/rfordatascience/tidytuesday/blob/master/data/2021/2021-04-27/readme.md).
+
 ``` r
 departures <- tuesday_data$departures %>% 
   glimpse()
@@ -93,6 +95,26 @@ departures <- tuesday_data$departures %>%
     ## $ `_merge`             <chr> "matched (3)", "matched (3)", "matched (3)", "mat…
 
 ## General preprocessing
+
+In particular, for this week of [\#TidyTuesday](https://github.com/rfordatascience/tidytuesday), I decided to focus on three main variables:
+
+-   `fyear`: The fiscal year in which the event occurred.
+-   `departure_code`: The departure reason coded.
+    1.  Involuntary - CEO death
+    2.  Involuntary - CEO illness
+    3.  Involuntary - CEO dismissed for job performance
+    4.  Involuntary - CEO dismissed for legal violations or concerns
+    5.  Voluntary - CEO retired
+    6.  Voluntary - New opportunity (new career driven succession)
+    7.  Other
+    8.  Missing
+    9.  Execucomp error
+-   `notes`: Long-form description and justification for the coding scheme assignment.
+
+Although *death* and *illness* are correctly classified as involuntary departures,
+departures due to job performance or violation of the law are, in general, the
+product of the individual himself. Therefore, I decided to separate them. For
+simplicity, I kept exit codes 3 and 4 as `Involuntary` and the rest as `Other`.
 
 ``` r
 departures_processed <- departures %>%
@@ -132,6 +154,15 @@ departures_processed <- departures %>%
 
 ## Create custom credits for plots
 
+Since I needed to generate multiple plots, I did not want to repeat myself and decided to include the process of adding credits with my brand in one place.
+
+{{% callout note %}}
+The `load = JS (" ... ")` section is not necessary in certain places.
+However, I decided to use it since in this blog the `iframes` that will be
+generated will try to open content within itself and will throw a error.
+In this way, I ensure that `target` is always a new tab. 🧐👉👈
+{{% /callout %}}
+
 ``` r
 add_custom_credits <- function(hc) {
   hc_credits(
@@ -145,7 +176,7 @@ add_custom_credits <- function(hc) {
         load = JS("
           function() {
             this.credits.element.onclick = function() {
-              window.open('https://twitter.com/jvelezmagic', '_blank');
+              window.open('https://twitter.com/jvelezmagic', '__blank');
             }
           }
           "
@@ -157,7 +188,15 @@ add_custom_credits <- function(hc) {
 
 ## CEOs departures
 
+The first thing I wanted to find out was how the number of CEO exits changes over
+time. In addition, I wanted to separate the counts into two main categories,
+involuntary and others. Where involuntary would represent those CEOs who were
+fired for reasons of job performance or for non-compliance with the law.
+
 ### Prepare data for plot
+
+Using the tidyverse ecosystem, answering that question boils down to using the
+`count()` function specifying the variables by which we want to group and count.
 
 ``` r
 involuntary_departures <- departures_processed %>%
@@ -172,6 +211,17 @@ involuntary_departures <- departures_processed %>%
     ## $ n           <int> 42, 273, 52, 274, 42, 305, 58, 332, 78, 286, 64, 165, 73, …
 
 ### Create interactive line plot
+
+Having our data ready, the next thing is to use `hchart()` to specify what type
+of chart we want to obtain. In this case, a line graph, where each line
+represents those CEO departures, either involuntary or for other reasons.
+
+To help compare both groups I decided to add a shared tooltip between both lines with `hc_tooltip()`.
+
+To help put the data in context a bit, I decided to add a band along the X axis representing the 2008 financial crisis by specifying the `plotBandas` attribute within `hc_xAxis()`.
+
+Finally I added the credits and used `frameWidget()` to allow me to display this
+graphic within this static page. Inside a *Rmarkdown* or a *Shiny app* it might not be necessary. 😬
 
 ``` r
 involuntary_departures %>%
@@ -514,6 +564,6 @@ departures_words_plot %>%
     ##  P zoo            1.8-9   2021-03-09 [?] CRAN (R 4.0.2)
     ## 
     ## [1] /Users/jvelezmagic/Documents/Github/personal_projects/jvelezmagic/renv/library/R-4.0/x86_64-apple-darwin17.0
-    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/RtmpvilncM/renv-system-library
+    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/Rtmpmixyr0/renv-system-library
     ## 
     ##  P ── Loaded and on-disk path mismatch.
