@@ -151,7 +151,7 @@ add_custom_credits <- function(hc) {
 
 The first thing I wanted to find out was how the number of CEO exits changes over
 time. In addition, I wanted to separate the counts into two main categories,
-involuntary and others. Where involuntary would represent those CEOs who were
+`Involuntary` and `Other`. Where involuntary would represent those CEOs who were
 fired for reasons of job performance or for non-compliance with the law.
 
 ### Prepare data for plot
@@ -169,7 +169,7 @@ involuntary_departures <- departures_processed %>%
 
 Having our data ready, the next thing is to use `hchart()` to specify what type
 of chart we want to obtain. In this case, a line graph, where each line
-represents those CEO departures, either involuntary or for other reasons.
+represents those CEO departures, either `involuntary` or for `other` reasons.
 
 To help compare both groups I decided to add a shared tooltip between both lines with `hc_tooltip()`.
 
@@ -220,8 +220,11 @@ involuntary_departures %>%
   # Display as iframe -------------------------------------------------------
   frameWidget()
 ```
+<br>
 
 ## Historical CEOs departures by category
+
+
 
 ### Prepare data for plot
 
@@ -286,6 +289,7 @@ hchart(
   # Display as iframe -------------------------------------------------------
   frameWidget()
 ```
+<br>
 
 ## Why CEOs leave the company?
 
@@ -387,6 +391,7 @@ departures_words_plot %>%
   # Display as iframe -----------------------------------------------------
   frameWidget()
 ```
+<br>
 
 ## Session info
 

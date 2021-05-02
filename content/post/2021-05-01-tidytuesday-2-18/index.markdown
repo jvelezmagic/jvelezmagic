@@ -190,7 +190,7 @@ add_custom_credits <- function(hc) {
 
 The first thing I wanted to find out was how the number of CEO exits changes over
 time. In addition, I wanted to separate the counts into two main categories,
-involuntary and others. Where involuntary would represent those CEOs who were
+`Involuntary` and `Other`. Where involuntary would represent those CEOs who were
 fired for reasons of job performance or for non-compliance with the law.
 
 ### Prepare data for plot
@@ -214,7 +214,7 @@ involuntary_departures <- departures_processed %>%
 
 Having our data ready, the next thing is to use `hchart()` to specify what type
 of chart we want to obtain. In this case, a line graph, where each line
-represents those CEO departures, either involuntary or for other reasons.
+represents those CEO departures, either `involuntary` or for `other` reasons.
 
 To help compare both groups I decided to add a shared tooltip between both lines with `hc_tooltip()`.
 
@@ -268,6 +268,8 @@ involuntary_departures %>%
 
 <div id="htmlwidget-1" style="width:100%;height:480px;" class="widgetframe html-widget"></div>
 <script type="application/json" data-for="htmlwidget-1">{"x":{"url":"index_files/figure-html//widgets/widget_line_plot.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
+
+<br>
 
 ## Historical CEOs departures by category
 
@@ -343,6 +345,8 @@ hchart(
 
 <div id="htmlwidget-2" style="width:100%;height:480px;" class="widgetframe html-widget"></div>
 <script type="application/json" data-for="htmlwidget-2">{"x":{"url":"index_files/figure-html//widgets/widget_treemap.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
+
+<br>
 
 ## Why CEOs leave the company?
 
@@ -462,6 +466,8 @@ departures_words_plot %>%
 <div id="htmlwidget-3" style="width:100%;height:480px;" class="widgetframe html-widget"></div>
 <script type="application/json" data-for="htmlwidget-3">{"x":{"url":"index_files/figure-html//widgets/widget_wordcloud.html","options":{"xdomain":"*","allowfullscreen":false,"lazyload":false}},"evals":[],"jsHooks":[]}</script>
 
+<br>
+
 ## Session info
 
     ## ─ Session info ───────────────────────────────────────────────────────────────
@@ -564,6 +570,6 @@ departures_words_plot %>%
     ##  P zoo            1.8-9   2021-03-09 [?] CRAN (R 4.0.2)
     ## 
     ## [1] /Users/jvelezmagic/Documents/Github/personal_projects/jvelezmagic/renv/library/R-4.0/x86_64-apple-darwin17.0
-    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/Rtmpmixyr0/renv-system-library
+    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/RtmpAdiYgQ/renv-system-library
     ## 
     ##  P ── Loaded and on-disk path mismatch.
