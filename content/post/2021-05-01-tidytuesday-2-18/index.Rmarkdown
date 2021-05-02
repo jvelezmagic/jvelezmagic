@@ -241,8 +241,8 @@ worrying about the details is important. In my case, I just wanted to make
 {{% /callout %}}
 
 In my case, I did not consider precise comparisons between categories important
-at this point in the scan. The `treemap` allowed me to quickly determine how CEOs
-departures codes were distributed.
+at this point in the data exploration. The `treemap` allowed me to quickly
+determine how CEOs departures codes were distributed.
 
 ### Prepare data for plot
 

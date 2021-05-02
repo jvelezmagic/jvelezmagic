@@ -290,8 +290,8 @@ worrying about the details is important. In my case, I just wanted to make
     {{% /callout %}}
 
 In my case, I did not consider precise comparisons between categories important
-at this point in the scan. The `treemap` allowed me to quickly determine how CEOs
-departures codes were distributed.
+at this point in the data exploration. The `treemap` allowed me to quickly
+determine how CEOs departures codes were distributed.
 
 ### Prepare data for plot
 
@@ -611,6 +611,6 @@ departures_words_plot %>%
     ##  P zoo            1.8-9   2021-03-09 [?] CRAN (R 4.0.2)
     ## 
     ## [1] /Users/jvelezmagic/Documents/Github/personal_projects/jvelezmagic/renv/library/R-4.0/x86_64-apple-darwin17.0
-    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/RtmpFu0oaT/renv-system-library
+    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/Rtmplrn97Z/renv-system-library
     ## 
     ##  P ── Loaded and on-disk path mismatch.
