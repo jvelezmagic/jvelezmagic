@@ -6,7 +6,7 @@ slug: learn-how-to-use-utterances-with-acadamic-hugo-blogdown
 categories: ["blogdown", "customization"]
 tags: ["blogdown", "customization"]
 subtitle: 'Configure a new comments provider'
-summary: ''
+summary: 'Say goodbye to Disqus ads and learn how to integrate Utterances, a "lightweight comments widget built on GitHub issues".'
 authors: []
 lastmod: '2021-05-06T20:51:47-05:00'
 featured: no
