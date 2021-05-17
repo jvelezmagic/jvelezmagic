@@ -8,7 +8,7 @@ tags: ["blogdown", "customization", "hugo"]
 subtitle: 'Configure a new comments provider'
 summary: 'Say goodbye to Disqus ads and learn how to integrate Utterances, a "lightweight comments widget built on GitHub issues".'
 authors: []
-lastmod: '2021-05-16T20:51:47-05:00'
+lastmod: '2021-05-17T20:51:47-05:00'
 featured: no
 image:
   caption: 'Person using black iPad'
@@ -41,7 +41,7 @@ Commits:
 - Julia Silge: [juliasilge/juliasilge.com@e7ea07d](https://github.com/juliasilge/juliasilge.com/commit/e7ea07d23df50a9fc347d83f68cb44e7e288207c)
 - Alison Hill: [rbind/apreshill@50127ff](https://github.com/rbind/apreshill/commit/50127ff87f2ea6f225c1fd1e2b2f60d953ae8e9c)
 
-I notice that they had overwritten the article page template. I thought it
+I noticed that they had overwritten the article page template. I thought it
 sounded good, I replicated it, and it worked. However, a part of me thought
 that, just as you could **overwrite** that template, I could generate
 a new HTML that would point to the `Utterances` configuration. I went ahead
@@ -119,9 +119,9 @@ First, I tried to copy verbatim the content that `Utterances` gave me for my
 repository. I pasted it on, and it worked like a charm. `Utterances` were now
 enabled for all my pages on my website. 🤗✨
 
-However, if I have set the parameters, the correct thing to do would be to map
-them for formality. So I added the following to my `utterances.html`
-file. 👨🏽‍💻👇
+However, if I already configured `Utterances` in the parameters file,
+the correct thing to do would be to map them to a HTML view for formality.
+So I added the following to my `utterances.html` file. 👨🏽‍💻👇
 
 ```html
 {{ if site.Params.comments.utterances.repo }}
