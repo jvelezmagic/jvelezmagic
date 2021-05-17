@@ -397,7 +397,7 @@ highchart(
 
 <br>
 
-Congratulations, you have learned to create a handy map to share to show a
+Congratulations, you have learned to create a handy map to share and show a
 problem of interest. I hope to see you soon with another blog. 😋✨✨✨
 
 ## Session info
@@ -498,6 +498,6 @@ problem of interest. I hope to see you soon with another blog. 😋✨✨✨
     ##  P zoo            1.8-9   2021-03-09 [?] CRAN (R 4.0.2)
     ## 
     ## [1] /Users/jvelezmagic/Documents/Github/personal_projects/jvelezmagic/renv/library/R-4.0/x86_64-apple-darwin17.0
-    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/RtmpOaZ9Zc/renv-system-library
+    ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/RtmpgYx8gk/renv-system-library
     ## 
     ##  P ── Loaded and on-disk path mismatch.
