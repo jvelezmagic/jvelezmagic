@@ -1,8 +1,8 @@
 ---
-title: Learn how to use Utterances with Acadamic Hugo theme in blogdown!
+title: Learn how to use Utterances with Academic Hugo theme in blogdown!
 author: Jesús Vélez
 date: '2021-05-06'
-slug: learn-how-to-use-utterances-with-acadamic-hugo-blogdown
+slug: learn-how-to-use-utterances-with-academic-hugo-blogdown
 categories: ["blogdown", "customization", "hugo"]
 tags: ["blogdown", "customization", "hugo"]
 subtitle: 'Configure a new comments provider'
