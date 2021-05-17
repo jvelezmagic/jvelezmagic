@@ -19,7 +19,7 @@ links:
 - icon: github
   icon_pack: fab
   name: Commit code
-  url: ""
+  url: https://github.com/jvelezmagic/jvelezmagic/commit/93d4323545dd07cf649049aac79f6869f7a26b34
 ---
 
 ## Why did I decide to leave Disqus and use Utterances?
@@ -154,3 +154,4 @@ reviewed about this problem is:
 I really found it very useful, and it could be the next step for you. 😇
 
 You can find the commit with which I made these changes here:
+[jvelezmagic/jvelezmagic@93d4323](https://github.com/jvelezmagic/jvelezmagic/commit/93d4323545dd07cf649049aac79f6869f7a26b34). Enjoy! 🥳🙌
