@@ -110,7 +110,7 @@ breadcrumb:
   page_types:
     book: true
 comments:
-  provider: 'utterances'
+  provider: 'disqus'
   commentable:
     post: true
     book: true
@@ -122,11 +122,6 @@ comments:
     show_count: true
   commento:
     url: ''
-  utterances:
-    repo: 'jvelezmagic/jvelezmagic'
-    issue_term: 'title'
-    label: 'web page comment'
-    theme: 'github-light'
 search:
   provider: wowchemy
   algolia:
