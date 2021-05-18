@@ -21,7 +21,8 @@ options(
   # post configuration
   blogdown.author = "Jesús Vélez",
   blogdown.ext = ".Rmarkdown",
-  blogdown.subdir = "post"
+  blogdown.subdir = "post",
+  blogdown.hugo.args = '--minify'
 )
 
 # fix Hugo version
