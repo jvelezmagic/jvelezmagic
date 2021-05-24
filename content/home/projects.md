@@ -30,6 +30,8 @@ content:
   filter_button:
   - name: All
     tag: '*'
+  - name: Software
+    tag: software
   - name: Deep Learning
     tag: Deep Learning
   - name: Other
