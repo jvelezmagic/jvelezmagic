@@ -1,9 +1,9 @@
 ---
 # Display name
-name: Jesús Vélez
+name: Jesús Vélez Santiago
 
 # Username (this should match the folder name)
-title: Jesús Vélez
+title: Jesús Vélez Santiago
 authors:
 - jvelezmagic
 
@@ -51,8 +51,9 @@ social:
 
 I am a Genomic Scientist. I love analyzing and visualizing data to improve our
 understanding of what is around us. Besides, I am fascinated by software
-development, and I hope to contribute useful packages to the scientific
+development, and I hope to contribute valuable packages to the scientific
 community one day. I am known for being a passionate, curious person and
-be always open to new challenges. Do you have any challenge?
+be always open to new challenges. Do you have any challenges?
 Good! Let's do it. Let's be problem solvers.
 :man_technologist: :monocle_face: :owl: :sparkles: 
+
