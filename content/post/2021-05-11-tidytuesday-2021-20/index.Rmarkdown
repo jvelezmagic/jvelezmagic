@@ -24,16 +24,29 @@ The data this week comes from
 by way of
 [The Verge](https://www.theverge.com/22418074/broadband-gap-america-map-county-microsoft-data).
 
-> If broadband access was a problem before 2020, the pandemic turned it into a
-> crisis. As everyday businesses moved online, city council meetings or court
-> proceedings became near-inaccessible to anyone whose connection couldn’t
-> support a Zoom call. Some school districts started providing Wi-Fi hotspots
-> to students without a reliable home connection. In other districts, kids set
-> up in McDonald’s parking lots just to get a reliable enough signal to do
-> their homework. After years of slowly widening, the broadband gap became
-> impossible to ignore.
+> Undoubtedly, the pandemic has brought with it a multitude of problems while
+> enhancing the pre-existing ones. Many businesses, schools, or government
+> procedures assimilated a digital model, while a large part of them closed their
+> doors. Accessing those digital models became an almost inaccessible task. Years
+> of unnoticed growth of this problem now stand out clearly. The issue of the
+> broadband gap is now impossible to ignore. 🧐
+
+You are a curious person. ✨ Microsoft's The Verge designed an article about 
+the bandwidth gap problem in the United States. They generated a map that
+highlights bivalence between counties that do not have a good internet
+connection. In this blog, you will learn how to use `highcharter` and the
+`tidyverse` ecosystem to create an essential replica of the map created
+by The Verge. Are you ready? Let's get started! 🙌
 
 ## Libraries
+
+In this blog, you will use:
+
+- 📈`highcharter` for charts.
+- 🪣`janitor` to clean the data.
+- 📥`tidyTuesdayR` to download the data.
+- 📝`tidyverse` for full data manipulation.
+- 🪞`widgetframe` to transform the chart into an iframe.
 
 ```{r libraries, message=FALSE, warning=FALSE}
 library(highcharter)
