@@ -12,8 +12,8 @@
   
 ## Connect with me
 
-[<img align="left" alt="jvelez-s | Twitter" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/twitter.svg" />][twitter]
-[<img align="left" alt="jvelez-s | Instagram" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/instagram.svg" />][instagram]
+[<img align="left" alt="jvelezmagic | Twitter" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/twitter.svg" />][twitter]
+[<img align="left" alt="jvelezmagic | Instagram" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/instagram.svg" />][instagram]
 <br>
 
 ## Languages and Tools:
@@ -37,4 +37,4 @@
  
 <!-- Abbreviationss -->
 [twitter]: https://twitter.com/jvelezmagic
-[instagram]: https://instagram.com/genomicmagician
+[instagram]: https://instagram.com/jvelezmagic
