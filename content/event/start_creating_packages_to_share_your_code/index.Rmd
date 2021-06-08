@@ -32,11 +32,11 @@ links:
 - icon: github
   icon_pack: fab
   name: Code
-#   url: https://github.com/jvelezmagic/talks/tree/main/start_creating_packages_to_share_your_code
-# - icon: play-circle
-#   icon_pack: fas
-#   name: Video
-#   url: ""
+  url: https://github.com/jvelezmagic/talks/tree/main/start_creating_packages_to_share_your_code
+- icon: play-circle
+  icon_pack: fas
+  name: Video
+  url: https://youtu.be/AwX1OJbIjzQ
 
 ---
 
