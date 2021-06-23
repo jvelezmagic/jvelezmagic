@@ -20,17 +20,17 @@ subtitle:
 # - For available icons, see: https://wowchemy.com/docs/page-builder/#icons
 feature:
 - description:
-  icon: r-project
-  icon_pack: fab
-  name: R
+  icon: chart-bar
+  icon_pack: fas
+  name: Machine learning, statistical and mathematical modeling, data analysis, data visualization
 - description:
-  icon: python
-  icon_pack: fab
-  name: Python
+  icon: tools
+  icon_pack: fas
+  name: R, Python, Julia, SQL, Shell, Markdown, Git, Github, Conda
 - description:
-  icon: github
-  icon_pack: fab
-  name: Github
+  icon: heart
+  icon_pack: fas
+  name: Writing and speaking for technical and general audiences
 
 # Uncomment to use emoji icons.
 #- icon = ":smile:"
