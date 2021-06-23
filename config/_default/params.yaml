@@ -22,24 +22,24 @@ twitter: 'jvelezmagic'
 
 # email: jvelezmagic@gmail.com
 # phone:
-address:
-  street: Av. Universidad s/n
-  city: Cuernavaca
-  region: Morelos
-  postcode: '62261'
-  country: Mexico
-  country_code: MEX
-coordinates:
-  latitude: '18.983285925532865'
-  longitude: '-99.23521298364383'
-directions: Just ask for the LCG center.
-office_hours:
-  - 'Monday to friday 9:00 to 14:00'
-contact_links:
-  - icon: twitter
-    icon_pack: fab
-    name: DM Me
-    link: 'https://twitter.com/jvelezmagic'
+# address:
+#   street: Av. Universidad s/n
+#   city: Cuernavaca
+#   region: Morelos
+#   postcode: '62261'
+#   country: Mexico
+#   country_code: MEX
+# coordinates:
+#   latitude: '18.983285925532865'
+#   longitude: '-99.23521298364383'
+# directions: Just ask for the LCG center.
+# office_hours:
+#   - 'Monday to friday 9:00 to 14:00'
+# contact_links:
+#   - icon: twitter
+#     icon_pack: fab
+#     name: DM Me
+#     link: 'https://twitter.com/jvelezmagic'
 
 # Site header
 
