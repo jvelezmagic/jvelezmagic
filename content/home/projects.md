@@ -32,8 +32,6 @@ content:
     tag: '*'
   - name: Software
     tag: software
-  - name: Deep Learning
-    tag: Deep Learning
   - name: Other
     tag: Demo
 
