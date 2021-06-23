@@ -11,6 +11,10 @@ image:
   caption: 'Image credit: [**Unsplash**](https://unsplash.com/photos/mf94VWJlMwU)'
   focal_point: Right
 links:
+- icon: images
+  icon_pack: fas
+  name: Slides
+  url: https://docs.google.com/presentation/d/e/2PACX-1vRPC-A_GeqZC9XV5tZNRulc9Cyj_u7uulD_GH__zuhVBfz57T0ImywwDTqm7EV7Q3bL3abfXgPiyeiv/embed?start=false&loop=false&delayms=3000
 - icon: github
   icon_pack: fab
   name: Code
@@ -22,7 +26,7 @@ tags: [conda, cookiecutter, pandas, python, data science]
 title: Pandas and its ecosystem for data science
 url_code: ""
 url_pdf: ""
-url_slides: "https://docs.google.com/presentation/d/e/2PACX-1vRPC-A_GeqZC9XV5tZNRulc9Cyj_u7uulD_GH__zuhVBfz57T0ImywwDTqm7EV7Q3bL3abfXgPiyeiv/embed?start=false&loop=false&delayms=3000"
+url_slides: 
 url_video: ""
 ---
 
