@@ -32,7 +32,7 @@ organizations:
   url: https://saezlab.org/
 
   
-role: Genomic Scientist
+role: Genomic Scientist | Data Scientist
 
 social:
 - icon: twitter
@@ -41,6 +41,12 @@ social:
 - icon: github
   icon_pack: fab
   link: https://github.com/jvelezmagic
+- icon: instagram
+  icon_pack: fab
+  link: https://www.instagram.com/jvelezmagic/
+- icon: linkedin
+  icon_pack: fab
+  link: https://www.linkedin.com/in/jvelezmagic/
 - icon: orcid
   icon_pack: ai
   link: http://orcid.org/0000-0001-5128-3838
