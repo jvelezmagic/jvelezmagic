@@ -10,7 +10,7 @@ active: true
 headless: true
 
 # Order that this section appears on the page.
-weight: 130
+weight: 120
 
 title: Contact me!
 subtitle: I will try to answer you as fast as a magic snap! 😋🪄
