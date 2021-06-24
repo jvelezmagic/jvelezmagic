@@ -13,7 +13,7 @@ headless: true
 weight: 130
 
 title: Contact me!
-subtitle: I will try to answer you as fast as a magic snap! 😋🪄
+subtitle: I will try to answer you as fast as a magic snap! 😋✨
 
 content:
   # Automatically link email and phone or display as text?
