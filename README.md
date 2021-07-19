@@ -14,6 +14,7 @@
 
 [<img align="left" alt="jvelezmagic | Twitter" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/twitter.svg" />][twitter]
 [<img align="left" alt="jvelezmagic | Instagram" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/instagram.svg" />][instagram]
+[<img align="left" alt="jvelezmagic | LinkedIn" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/linkedin.svg" />][linkedin]
 <br>
 
 ## Languages and Tools:
@@ -38,3 +39,4 @@
 <!-- Abbreviationss -->
 [twitter]: https://twitter.com/jvelezmagic
 [instagram]: https://instagram.com/jvelezmagic
+[linkedin]: https://www.linkedin.com/in/jvelezmagic/
