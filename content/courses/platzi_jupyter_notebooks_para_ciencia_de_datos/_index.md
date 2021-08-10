@@ -6,7 +6,7 @@ title: "Jupyter Notebook for Data Science"
 type: book
 ---
 
-{{< figure src="featured.jpeg" >}}
+{{< figure src="featured.jpg" >}}
 
 {{< toc hide_on="xl" >}}
 
