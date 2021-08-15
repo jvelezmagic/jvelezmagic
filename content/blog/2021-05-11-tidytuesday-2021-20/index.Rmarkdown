@@ -41,11 +41,11 @@ by The Verge. Are you ready? Let's get started! 🙌
 
 In this blog, you will use:
 
-- 📈`highcharter` for charts.
-- 🪣`janitor` to clean the data.
-- 📥`tidyTuesdayR` to download the data.
-- 📝`tidyverse` for full data manipulation.
-- 🪞`widgetframe` to transform the chart into an iframe.
+- 📈 `highcharter` for charts.
+- 🪣 `janitor` to clean the data.
+- 📥 `tidyTuesdayR` to download the data.
+- 📝 `tidyverse` for full data manipulation.
+- 🪞 `widgetframe` to transform the chart into an iframe.
 
 ```{r libraries, message=FALSE, warning=FALSE}
 library(highcharter)
@@ -63,8 +63,7 @@ tuesday_data <- tidytuesdayR::tt_load(2021, week = 20)
 
 ## Extract data to use
 
-A full description of the data can be found
-[here](https://github.com/rfordatascience/tidytuesday/blob/master/data/2021/2021-05-11/readme.md).
+A full description of the data can be found in this [github repository](https://github.com/rfordatascience/tidytuesday/blob/master/data/2021/2021-05-11/readme.md)).
 
 ```{r extract_data_to_use}
 broadband <- tuesday_data$broadband %>%
@@ -230,8 +229,6 @@ Who knows. Observe, discuss and leave in the comments how you create them!
 
 Well, you've done a ton of stunts to get here, but now is the time to create
 the `target map`. Are you ready? Let's do it! 🤭🤭🤭
-
-![](https://media.giphy.com/media/DoCIC5Pxp57qg/giphy.gif)
 
 The first step is to map the data to a graph. For this, you will use
 `highchart()` to define that the desired graph is of the `map` type.
