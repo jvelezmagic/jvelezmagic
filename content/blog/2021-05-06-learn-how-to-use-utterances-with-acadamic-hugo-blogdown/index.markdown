@@ -2,7 +2,6 @@
 title: Learn how to use Utterances with Academic Hugo theme in blogdown!
 author: Jesús Vélez
 date: '2021-05-06'
-slug: learn-how-to-use-utterances-with-academic-hugo-blogdown
 categories: ["blogdown", "customization", "hugo"]
 tags: ["blogdown", "customization", "hugo"]
 subtitle: 'Configure a new comments provider'
@@ -28,9 +27,9 @@ You may think that I had great reasons to use `Disqus` instead of `Utterances`,
 but the truth is that I did not. For the most part, it was for fun and
 learning, but not having ads really sold me. 🤭
 
-I knew that people I admire very much, like 
+I knew that people I admire very much, like
 [Julia Silge](https://juliasilge.com/)
-or 
+or
 [Alison Hill](https://alison.rbind.io/),
 had made this migration not long ago. I wondered how they did it specifically
 since they also used the **Academic Hugo Theme** template. I went into their
