@@ -17,6 +17,7 @@
       {{ $number_featured := $page.Params.number_featured | default 2 }}
       {{ range first $number_featured .Pages.ByDate.Reverse }}
       <article class="pb1 pb2-ns">
+        {{ $title := .Title }}
         <h4 class="f4 mt3 mb2 lh-title"><a href="{{ .RelPermalink }}" class="dim no-underline">{{ .Title }}</a></h4>
           <div class="flex flex-column flex-row-ns mb2 mb3-l items-center">
               <figure class="mr3 w-50 w-20-ns">
@@ -30,6 +31,7 @@
                   <img 
                     src="{{ .RelPermalink | absURL }}" 
                     align="left" 
+                    alt="{{ $title }}"
                     class="mw-100 db" 
                     width="{{ .Width }}"/>
                 {{ end }}
