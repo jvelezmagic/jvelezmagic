@@ -592,6 +592,9 @@ departures_words_plot %>%
 
 ## Session info
 
+<details class="f6 fw7 input-reset">
+  <summary>Show/hide</summary>
+
     ## ─ Session info ───────────────────────────────────────────────────────────────
     ##  setting  value
     ##  version  R version 4.0.5 (2021-03-31)
@@ -695,3 +698,5 @@ departures_words_plot %>%
     ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/RtmpafrI0H/renv-system-library
     ##
     ##  P ── Loaded and on-disk path mismatch.
+
+</details>

@@ -113,7 +113,7 @@ later, but stick with that idea for now. 👀👌
 
 ``` r
 get_data_from_map(map_layout_data) %>%
-  clean_names() %>% 
+  clean_names() %>%
   glimpse()
 ```
 
@@ -317,7 +317,7 @@ highchart(
         )
       )
     )
-  ) %>% 
+  ) %>%
   hc_add_series_list(broadband_series_data) %>%
   # Display text as in original source. -----------------------------------
   hc_title(
@@ -343,11 +343,11 @@ highchart(
     text = "
       Map: The Verge. The database does not include broadband rates for
       Oglala Lakota County, South Dakota, or Kusilvak Census Area, Alaska,
-      because of a coding irregularity. Source: 
+      because of a coding irregularity. Source:
       <a href='https://github.com/microsoft/USBroadbandUsagePercentages'>
         Microsoft
-      </a> 
-       - 
+      </a>
+       -
       <a href='https://www.theverge.com/22418074/broadband-gap-america-map-county-microsoft-data'>
       Get the data
       </a>.
@@ -377,7 +377,7 @@ highchart(
   ) %>%
   hc_credits(
     text = "
-      <b>Replica made by: </b> 
+      <b>Replica made by: </b>
       <a href='https://twitter.com/jvelezmagic'>@jvelezmagic</a>
     ",
     enabled = TRUE,
@@ -397,7 +397,7 @@ highchart(
     hc_thm = hc_theme_elementary()
   ) %>%
   # Display as iframe -----------------------------------------------------
-  frameWidget() %>% 
+  frameWidget() %>%
   identity()
 ```
 
@@ -411,20 +411,23 @@ problem of interest. I hope to see you soon with another blog. 😋✨✨✨
 
 ## Session info
 
+<details class="f6 fw7 input-reset">
+  <summary>Show/hide</summary>
+
     ## ─ Session info ───────────────────────────────────────────────────────────────
-    ##  setting  value                                      
+    ##  setting  value
     ##  version  R version 4.0.5 Patched (2021-05-28 r80452)
-    ##  os       macOS Big Sur 10.16                        
-    ##  system   x86_64, darwin17.0                         
-    ##  ui       X11                                        
-    ##  language (EN)                                       
-    ##  collate  en_US.UTF-8                                
-    ##  ctype    en_US.UTF-8                                
-    ##  tz       America/Mexico_City                        
-    ##  date     2021-08-15                                 
-    ## 
+    ##  os       macOS Big Sur 10.16
+    ##  system   x86_64, darwin17.0
+    ##  ui       X11
+    ##  language (EN)
+    ##  collate  en_US.UTF-8
+    ##  ctype    en_US.UTF-8
+    ##  tz       America/Mexico_City
+    ##  date     2021-08-15
+    ##
     ## ─ Packages ───────────────────────────────────────────────────────────────────
-    ##  ! package      * version date       lib source        
+    ##  ! package      * version date       lib source
     ##  P assertthat     0.2.1   2019-03-21 [?] CRAN (R 4.0.2)
     ##  P backports      1.2.1   2020-12-09 [?] CRAN (R 4.0.2)
     ##  P bit            4.0.4   2020-08-04 [?] CRAN (R 4.0.2)
@@ -509,8 +512,10 @@ problem of interest. I hope to see you soon with another blog. 😋✨✨✨
     ##  P xts            0.12.1  2020-09-09 [?] CRAN (R 4.0.2)
     ##  P yaml           2.2.1   2020-02-01 [?] CRAN (R 4.0.2)
     ##  P zoo            1.8-9   2021-03-09 [?] CRAN (R 4.0.2)
-    ## 
+    ##
     ## [1] /Users/jvelezmagic/Documents/Github/personal_projects/jvelezmagic/renv/library/R-4.0/x86_64-apple-darwin17.0
     ## [2] /private/var/folders/bt/17212s6j0xxfjty0f77xmfq00000gn/T/Rtmp0EWnq6/renv-system-library
-    ## 
+    ##
     ##  P ── Loaded and on-disk path mismatch.
+
+</details>

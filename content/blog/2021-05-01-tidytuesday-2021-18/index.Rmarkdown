@@ -514,6 +514,9 @@ departures_words_plot %>%
 
 ## Session info
 
+<details class="f6 fw7 input-reset">
+  <summary>Show/hide</summary>
 ```{r session_info, echo=FALSE}
 sessioninfo::session_info()
 ```
+</details>
