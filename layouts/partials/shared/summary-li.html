@@ -33,7 +33,9 @@
                     align="left" 
                     alt="{{ $title }}"
                     class="mw-100 db" 
-                    width="{{ .Width }}"/>
+                    width="{{ .Width }}"
+                    height="{{ .Height }}"
+                    style="aspect-ratio: attr(width) / attr(height); height: auto; width: 100%;"/>
                 {{ end }}
                 </a>
               </figure>
