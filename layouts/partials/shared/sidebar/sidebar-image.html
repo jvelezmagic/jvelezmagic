@@ -10,6 +10,6 @@
 <!--if neither, use first section sidebar-->
 {{ $first := (.FirstSection.Resources.ByType "image").GetMatch "*sidebar*" }}
 {{ $thumbnail := cond (eq $thumbnail nil) $first $thumbnail }}
-{{ with $thumbnail := $thumbnail.Resize "x200"}}
+{{ with $thumbnail }}
   <img src="{{ .RelPermalink }}" class="db ma0" alt="" width="{{ .Width }}" height="{{ .Height }}" style="aspect-ratio: attr(width) / attr(height); height: auto; width: 100%;">
 {{ end }}
