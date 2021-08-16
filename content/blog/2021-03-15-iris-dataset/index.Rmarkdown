@@ -5,7 +5,6 @@ date: '2021-03-15'
 categories: ["R"]
 tags: ["R"]
 subtitle: ''
-summary: ''
 authors: []
 lastmod: '2021-03-15T14:08:18-06:00'
 featured: no
