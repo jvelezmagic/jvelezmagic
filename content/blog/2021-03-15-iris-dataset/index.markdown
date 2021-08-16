@@ -1,6 +1,6 @@
 ---
 title: 'Iris dataset'
-author: Jesús Vélez
+summary: A quick demostration of Rmarkdown power using blogdown!
 date: '2021-03-15'
 categories: ["R"]
 tags: ["R"]
@@ -15,8 +15,6 @@ image:
   preview_only: no
 projects: []
 ---
-
-> "If you’ve ever had any statistics or machine learning training, formally or informally, you can’t be unfamiliar with the Iris dataset, which even has its own Wikipedia page given its popularity."
 
 ## Load libraries
 
@@ -104,7 +102,8 @@ iris_clean %>%
 
 ## Session info
 
-
+<details class="f6 fw7 input-reset">
+  <summary>Show/hide</summary>
 ```
 ## ─ Session info ───────────────────────────────────────────────────────────────
 ##  setting  value
@@ -190,4 +189,4 @@ iris_clean %>%
 ##
 ## [1] /Library/Frameworks/R.framework/Versions/4.0/Resources/library
 ```
-
+</details>
