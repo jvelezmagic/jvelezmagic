@@ -1,0 +1,7 @@
+// create custom font classes 
+.custom-text-font { font-family: $customtextFontFamily; }
+.custom-heading-font { font-family: $customheadingFontFamily; }
+
+// override variables used in main with new custom class slugs
+$textFontFamily: custom-text-font;
+$headingFontFamily: custom-heading-font;

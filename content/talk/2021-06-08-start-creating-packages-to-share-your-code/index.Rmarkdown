@@ -1,0 +1,51 @@
+---
+event: Saez-lab meetings
+event_url: https://saezlab.org/
+location: Virtual
+title: Start Creating Packages to Share Your Code
+summary: >-
+  So, you are a programmer. But, do you know what it is to develop software
+  packages? You have everything you need to start developing software,
+  and here I show you how. 🤯🎯
+categories:
+  - talk
+tags: [r, software-development]
+date: "2021-06-08T08:00:00Z"
+date_end: "2021-06-08T09:00:00Z"
+draft: false
+links:
+- icon: images
+  icon_pack: fas
+  name: Slides
+  url: https://jvelezmagic-slides.netlify.app/start_creating_packages_to_share_your_code/#1
+- icon: github
+  icon_pack: fab
+  name: Code
+  url: https://github.com/jvelezmagic/talks/tree/main/start_creating_packages_to_share_your_code
+- icon: play-circle
+  icon_pack: fas
+  name: Video
+  url: https://youtu.be/AwX1OJbIjzQ
+---
+
+## Abstract
+
+So, you are a programmer. But, do you know what it is to develop software
+  packages? If you answered no, you should go ahead and watch the next talk.
+  You have everything you need to start developing software,
+  and here I show you how. 🤯🎯
+
+## Why is there this talk? 🤔  
+🐾 The last activity to carry out in my undergraduate program is to spend a year
+staying in a laboratory that we like doing research. As you can imagine, I love
+programming and learning new things all the time. That is why I decided to stay
+with Dr. Julio-Saez's group after he gave a virtual talk to my undergraduate
+group. I could say that this talk represents the closing of my stay. However,
+who knows, maybe, and it could be the beginning of more collaborations at
+some point. Time will tell. For now, enjoy the slides and the talk! 😋✨  
+  
+## Slides
+
+```{r echo=FALSE}
+xaringanExtra::embed_xaringan(url = "https://jvelezmagic-slides.netlify.app/start_creating_packages_to_share_your_code/#1")
+```

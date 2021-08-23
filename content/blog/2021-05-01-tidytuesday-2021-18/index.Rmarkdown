@@ -1,0 +1,522 @@
+---
+title: "Using Highcharter in TidyTuesday CEOs departures"
+author: Jesús Vélez
+date: '2021-05-01'
+categories: ["R", "rstats", "TidyTuesday", "dataviz"]
+tags: []
+subtitle: '2021 - Week 18'
+summary: 'Tidytuesday - 2021 - 18 - The data this week comes from Gentry et al. by way of DataIsPlural. Learn how to use Highcharter, a wrapper for Highcharts javascript library and its modules.'
+authors: []
+lastmod: '2021-05-01T16:48:00-05:00'
+featured: no
+image:
+  caption: 'Image of blurred moving people walking through an office lobby'
+  focal_point: ''
+  preview_only: no
+projects: []
+links:
+- icon: github
+  icon_pack: fab
+  name: Code
+  url: https://github.com/jvelezmagic/jvelezmagic/blob/main/content/post/2021-05-01-tidytuesday-2-18/index.Rmarkdown
+- icon: twitter
+  icon_pack: fab
+  name: Post tweet
+  url: https://twitter.com/jvelezmagic/status/1388970182173995012
+- icon: medapps
+  icon_pack: fab
+  name: ShinyApp
+  url: https://jvelezmagic.shinyapps.io/ceo_departure/
+---
+
+## CEO departures
+
+The data this week comes from [Gentry et al.](https://onlinelibrary.wiley.com/doi/abs/10.1002/smj.3278) by way of [DataIsPlural](https://www.data-is-plural.com/archive/2021-04-21-edition/).
+
+> We introduce an open‐source dataset documenting the reasons for CEO departure in S&P 1500 firms from 2000 through 2018. In our dataset, we code for various forms of voluntary and involuntary departure. We compare our dataset to three published datasets in the CEO succession literature to assess both the qualitative and quantitative differences among them and to explore how these differences impact empirical findings associated with the performance‐CEO dismissal relationship. The dataset includes eight different classifications for CEO turnover, a narrative description of each departure event, and links to sources used in constructing the narrative so that future researchers can validate or adapt the coding. The resulting data are available at (https://doi.org/10.5281/zenodo.4543893).
+>
+> This revision includes potentially relevant 8k filings from 270 days before and after the CEO's departure date. These filings were not all useful for understanding the departure, but might be useful in general.
+
+Another article from [investors.com](https://www.investors.com/news/ceo-turnover-bailing-out-droves/).
+
+## Libraries
+
+```{r libraries, message=FALSE, warning=FALSE}
+library(tidyverse)
+library(tidytext)
+library(tidytuesdayR)
+library(stopwords)
+library(widgetframe)
+library(highcharter)
+```
+
+## Download data
+
+```{r download_data, message=FALSE, warning=FALSE, results='hide'}
+tuesday_data <- tt_load(x = 2021, week = 18)
+```
+
+## Extract data to use
+
+A full description of the data can be found
+[here](https://github.com/rfordatascience/tidytuesday/blob/master/data/2021/2021-04-27/readme.md).
+
+```{r extract_data_needed}
+departures <- tuesday_data$departures %>% 
+  glimpse()
+```
+
+## General preprocessing
+
+In particular, for this week of [#TidyTuesday](https://github.com/rfordatascience/tidytuesday), 
+I decided to focus on three main variables:
+
+- `fyear`: The fiscal year in which the event occurred.
+- `departure_code`: The departure reason coded.
+  1. Involuntary - CEO death
+  2. Involuntary - CEO illness
+  3. Involuntary - CEO dismissed for job performance
+  4. Involuntary - CEO dismissed for legal violations or concerns
+  5. Voluntary - CEO retired
+  6. Voluntary - New opportunity (new career driven succession)
+  7. Other
+  8. Missing
+  9. Execucomp error
+- `notes`: Long-form description and justification for the coding scheme assignment.
+
+Although _death_ and _illness_ are correctly classified as involuntary departures,
+departures due to job performance or violation of the law are, in general, the
+product of the individual himself. Therefore, I decided to separate them. For
+simplicity, I kept exit codes 3 and 4 as `Involuntary` and the rest as `Other`.
+
+```{r general_preprocessing}
+departures_processed <- departures %>%
+  select(fyear, departure_code, notes) %>%
+  filter(
+      departure_code < 9,
+      fyear > 1995,
+      fyear < 2019
+  ) %>%
+  mutate(
+      involuntary = if_else(
+        condition = departure_code %in% 3:4,
+        true = "Involuntary",
+        false = "Other"
+      ),
+      departure_code = fct_recode(
+        .f = factor(departure_code),
+          "Death" = "1",
+          "Illness" = "2",
+          "Job performance" = "3",
+          "Legal violations or concerns" = "4",
+          "Retired" = "5",
+          "New opportunity" = "6",
+          "Other" = "7",
+          "Missing" = "8"
+      )
+  ) %>%
+  glimpse()
+```
+
+## Create custom credits for plots
+
+Since I needed to generate multiple plots, I did not want to repeat myself and
+decided to include the process of adding credits with my brand in one place.
+
+{{% callout note %}}
+The `load = JS(" ... ")` section is not necessary in certain places. 
+However, I decided to use it since in this blog the `iframes` that will be
+generated will try to open content within itself and will throw a error.
+In this way, I ensure that `target` is always a new tab. 🧐👉👈
+{{% /callout %}}
+
+```{r custom_credits}
+add_custom_credits <- function(hc) {
+  hc_credits(
+    hc = hc,
+    text = "<b>Dataviz by:</b> @jvelezmagic",
+    href = "https://twitter.com/jvelezmagic",
+    enabled = TRUE
+  ) %>%
+    hc_chart(
+      events = list(
+        load = JS("
+          function() {
+            this.credits.element.onclick = function() {
+              window.open('https://twitter.com/jvelezmagic', '__blank');
+            }
+          }
+          "
+        )
+      )
+    )
+}
+```
+
+## CEOs departures
+
+The first thing I wanted to find out was how the number of CEO exits changes over
+time. In addition, I wanted to separate the counts into two main categories,
+`Involuntary` and `Other`. Where involuntary would represent those CEOs who were
+fired for reasons of job performance or for non-compliance with the law.
+
+### Prepare data for plot
+
+Using the tidyverse ecosystem, answering that question boils down to using the
+`count()` function specifying the variables by which we want to group and count.
+
+```{r collapse_categories}
+involuntary_departures <- departures_processed %>%
+  count(fyear, involuntary) %>% 
+  glimpse()
+```
+
+### Create interactive line plot
+
+Having our data ready, the next thing is to use `hchart()` to specify what type
+of chart we want to obtain. In this case, a line graph, where each line
+represents those CEO departures, either `involuntary` or for `other` reasons.
+
+To help compare both groups I decided to add a shared tooltip between both lines
+with `hc_tooltip()`.
+
+To help put the data in context a bit, I decided to add a band along the X axis
+representing the 2008 financial crisis by specifying the `plotBandas` attribute
+within `hc_xAxis()`.
+
+Finally I added the credits and used `frameWidget()` to allow me to display this
+graphic within this static page. Inside a _Rmarkdown_ or a _Shiny app_ it might
+not be necessary. 😬
+
+```{r line_plot}
+involuntary_departures %>%
+  # Plot specifications -----------------------------------------------------
+  hchart(
+    type = "line",
+    hcaes(x = fyear, y = n, group = involuntary),
+    regression = TRUE
+  ) %>%
+  hc_add_dependency("plugins/highcharts-regression.js") %>% 
+  hc_tooltip(
+    crosshairs = TRUE,
+    shared = TRUE
+  ) %>% 
+  # Text annotations --------------------------------------------------------
+  hc_title(
+    text = "CEOs departures"
+  ) %>%
+  hc_xAxis(
+    title = list(text = "Year"),
+    plotBands = list(
+      list(
+        label = list(
+          text = "Global<br>crisis",
+          style = list(
+            color = "white",
+            fontWeight = "bold"
+          ),
+          useHTML = TRUE
+        ),
+        color = "rgba(256,0,0,0.4)",
+        fillOpacity = 0.5,
+        from = 2006,
+        to = 2008
+      )
+    )
+  ) %>%
+  hc_yAxis(
+    title = list(text = "Number of CEOs departures")
+  ) %>%
+  # Credits -----------------------------------------------------------------
+  add_custom_credits() %>%
+  # Display as iframe -------------------------------------------------------
+  frameWidget()
+```
+<br>
+
+## Historical CEOs departures by category
+
+I wondered how all CEOs are distributed collectively in the data by their
+departure code. Here I had many display options, `bars`, `sunburst`, `treemap`,
+among others.
+
+Choosing a visualization that allows you to see exactly what you need without
+worrying about the details is important. In my case, I just wanted to make
+`treemaps` for fun, but I could make any other.
+
+{{% callout note %}}
+`treemaps` can be useful when:
+
+- You want to observe relationships among a large number of categories.
+- Precision in comparisons is not that important.
+- Your data is hierarchical.
+{{% /callout %}}
+
+In my case, I did not consider precise comparisons between categories important
+at this point in the data exploration. The `treemap` allowed me to quickly
+determine how CEOs departures codes were distributed.
+
+### Prepare data for plot
+
+In order for `highcharter` to understand our data, we must transform it to a list
+containing which objects are parents and which are children, which in javascript
+could be a `JSON` or `dictionary`.
+
+To solve this, `highcharter` provides `data_to_hierarchical()` shortcut that
+allows you to directly obtain the format needed to create a `treemap` or a
+`sunburst`. 😋✨
+
+```{r treemap_data_processing}
+departures_treemap_plot <- departures_processed %>%
+  mutate(
+    fyear = as.character(fyear),
+    value = 1
+  ) %>%
+  data_to_hierarchical(
+    group_vars = c(departure_code, fyear),
+    size_var = value
+  )
+
+departures_treemap_plot[[100]] %>% 
+  glimpse()
+```
+
+### Create nested treemap
+
+First I defined that the type of visualization I wanted was a `treemap`.
+
+The global call to `dataLabels` says that, by default, don't paint any labels in
+sight. This will allow customizing the order of appearance of our labels in each
+hierarchical layer.
+
+Besides, I decided to add a bit of a separating border width between each
+of my categories to make it more apparent where each one started and ended.
+
+Parameter `allowDrillToNode` allows you to click on a point and access to the
+next hierarchical level of the data. In our case, we only have two levels,
+`departures_code` and `fyear`, but they could be more. 🤓
+
+```{r treemap}
+# Plot specification --------------------------------------------------------
+hchart(
+  departures_treemap_plot,
+  type = "treemap",
+  ## Global configuration ---------------------------------------------------
+  dataLabels = list(
+    enabled = FALSE
+  ),
+  ## Modify levels appearance -----------------------------------------------
+  allowDrillToNode = TRUE,
+  levelIsConstant = FALSE,
+  levels = list(
+    list(
+      level = 1,
+      borderWidth = 4,
+      dataLabels = list(
+        enabled = TRUE,
+        style = list(
+          fontSize = "14px"
+        )
+      )
+    ),
+    list(
+      level = 2,
+      dataLabels = list(
+        enabled = FALSE
+      ),
+      colorVariation = list(
+        key = "brightness",
+        to = 0.25
+      )
+    )
+  )
+) %>%
+  # Text annotations --------------------------------------------------------
+  hc_title(
+    text = "CEOs departures by category"
+  ) %>%
+  # Credits -----------------------------------------------------------------
+  add_custom_credits() %>%
+  # Display as iframe -------------------------------------------------------
+  frameWidget()
+```
+<br>
+
+## Why CEOs leave the company?
+
+Once I learned how CEO departures were historically, I wondered why they had to
+quit. What bad things did they do? What did they get sick from? Did they have
+good recommendations to migrate to a better job?
+
+To answer the questions, I decided to do some simple natural language processing
+like data exploration, but this could be more complicated to get better results.
+It all depends on what you want to achieve in the end. 🧐
+
+### Text processing
+
+I decided to start by separating all the notes written about CEO exits to their
+corresponding word form with `unnest_tokens()`. This generated me a new column
+called `word`.
+
+Sometimes when we write texts, not all words are important. Perhaps we could
+focus on certain phrases ignoring, for example, articles, pronouns,
+prepositions, etc.
+
+`get_stopwords()` returns a tibble with two columns, `word` and `lexicon`,
+where word represents the stop words of a language (by default English) and
+lexicon as the source from which they were extracted. Since the our data and the
+data generated by `get_stopwords()` contain the `word` column, I performed an 
+`anti_join()` of the tables to **remove** all those words that it did not require.
+
+Following the same logic described above, I made an `inner_join()` to **keep**
+only those words that were associated with some feeling given a lexicon.
+This certainly narrowed my _corpus_, but for my mental question it worked to
+filter my observations instead of taking the global tops.
+Although, perhaps to build a model you might prefer to keep all the words and
+use `ngrams`.
+
+Finally, I counted the words by departure code. 😴
+
+```{r text_processing, message=FALSE}
+departures_words <- departures_processed %>%
+  select(departure_code, notes) %>%
+  unnest_tokens(output = word, input = notes) %>%
+  anti_join(y = get_stopwords()) %>%
+  inner_join(y = get_sentiments(lexicon = "bing")) %>%
+  count(departure_code, word) %>%
+  glimpse()
+```
+
+### Prepare data for plot
+
+I wanted to develop a word cloud where the first categories tell us how many words
+associated with feelings we find per category. After clicking on any of these, I
+wanted to show the word cloud of the words associated with those categories.
+
+First, I used `group_nest()` to create a tibble with two columns,
+`departure_code` and `data`. I added an `id` column that will be the one that
+connects our charts by level. `type` column will tell `highcharter` that the
+subplot I want is a word cloud as well.
+
+The first call to `map()` corresponds to creating two new columns to the data of
+our `data` column; `name` and `weight`, parameters described in the creation of
+a `wordcloud` type chart. The second call to `map()` is to convert each tibble
+into a highcharter-understandable list.
+
+Finally, I counted how many words each category contained. It should be noted
+that this new column `n` now exists both at the first and second levels, that is,
+within `data`, therefore we can use it to customize our `tooltips` with a better
+message. 🤫
+
+```{r wordcloud_data_processing}
+departures_words_plot <- departures_words %>%
+  group_nest(departure_code) %>%
+  mutate(
+    id = departure_code,
+    type = "wordcloud",
+    data = map(data, mutate, name = word, weight = log(n)),
+    data = map(data, list_parse),
+    n = lengths(data)
+  ) %>%
+  glimpse()
+```
+
+### Create interactive Word Cloud
+
+First I defined that the type of chart I wanted was a `wordcloud`.
+Then I specified which columns to take the data from, similar to creating a
+graph with `ggplot2`. The `drilldown` parameter is who will say where to zoom to
+our data. 😉
+
+With `hc_drilldown()` we will define the `series` or subplots that we want to
+visualize. As you may have been imagining, we could add different levels with
+different graphics, for example going from a representation of `bars` to one of
+`lines` simply by configuring the formats of our series. 🤯
+
+Finally I set up the texts of the figure, specifying that, when it will enter
+the first level, the title will be updated and put the corresponding one for the
+category. Just to keep us in context of which words are from which category.
+On the other hand, I indicated that the `tooltip` will show the value of the
+variable `n`, present at level 1 and 2 of the data. Therefore, despite displaying
+the data on a logarithmic scale, we can display the absolute counts that are easier
+to interpret. 😬
+
+```{r wordcloud}
+departures_words_plot %>%
+  # Plot specification ------------------------------------------------------
+  ## First level ------------------------------------------------------------
+  hchart(
+    type = "wordcloud",
+    name = "Categories",
+    hcaes(
+      name = departure_code,
+      weight = log(n),
+      drilldown = departure_code
+    )
+  ) %>%
+  ## Second level -----------------------------------------------------------
+  hc_drilldown(
+    allowPointDrilldown = TRUE,
+    series = list_parse(departures_words_plot)
+  ) %>%
+  # Text annotations --------------------------------------------------------
+  ## Main title -------------------------------------------------------------
+  hc_title(
+    text = "CEOs, You are fired! But wait ... why?"
+  ) %>%
+  hc_subtitle(
+    text = "Click to drill down"
+  ) %>% 
+  ## Insert and remove title when drilldown ---------------------------------
+  hc_chart(
+    type = "column",
+    events = list(
+      drilldown = JS("
+        function(e) {
+          this.update(
+            {
+              title: {
+                text: e.seriesOptions.id
+              }
+            }
+          )
+        }
+      "
+      ),
+      drillup = JS("
+        function() {
+          this.update(
+            {
+              title: {
+                text: 'CEOs, You are fired! But wait ... why?' 
+              }
+            }
+          )
+        }
+      "
+      )
+    )
+  ) %>%
+  ## Configure how tooltip is displayed -------------------------------------
+  hc_tooltip(
+    pointFormat = tooltip_table(
+      x = c("Word count:  "),
+      y = c("{point.n}")
+    ),
+    useHTML = TRUE
+  ) %>%
+  # Credits ---------------------------------------------------------------
+  add_custom_credits() %>%
+  # Display as iframe -----------------------------------------------------
+  frameWidget()
+```
+<br>
+
+## Session info
+
+<details class="f6 fw7 input-reset">
+  <summary>Show/hide</summary>
+```{r session_info, echo=FALSE}
+sessioninfo::session_info()
+```
+</details>
