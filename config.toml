@@ -116,7 +116,7 @@ enableEmoji = true
       url       = "/blog/index.xml"
   [[params.social]]
       icon      = "cv" # icon name without the 'fa-'
-      icon_pack = "ia"
+      icon_pack = "ai"
       url       = "/files/cv.pdf"
 
 [taxonomies]
