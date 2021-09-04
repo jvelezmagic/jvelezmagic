@@ -3,7 +3,7 @@ action_label: About me &rarr;
 action_link: /about
 action_type: text
 description: |
-  I am a Genomic Scientist. I love analyzing and visualizing data to
+  I love analyzing and visualizing data to
   improve our understanding of what is around us. Besides, I am fascinated by
   software development, and I hope to contribute valuable packages to the
   scientific community one day. I am known for being a passionate, curious
