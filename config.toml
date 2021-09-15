@@ -85,7 +85,7 @@ enableEmoji = true
   [[params.social]]
       icon      = "github" # icon name without the 'fa-'
       icon_pack = "fab"
-      url       = "https://github.com/jvelezmagic/jvelezmagic2"
+      url       = "https://github.com/jvelezmagic/jvelezmagic"
   # [[params.social]]
   #     icon      = "facebook-square" # icon name without the 'fa-'
   #     icon_pack = "fab"
