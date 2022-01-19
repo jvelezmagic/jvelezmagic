@@ -4,7 +4,7 @@
 
 - 🦉 I'm always trying to learn something new 😂
 - 🗓 I'm always thinking about how to abstract the problems 👁
--  2021 Goals:
+-  2022 Goals:
     - 🦊 Learn more about Open Source projects and try to contribute to it 🤓
     - 🤭 Understand and apply package development in R 🧐
     - 😔 Survive 😔
