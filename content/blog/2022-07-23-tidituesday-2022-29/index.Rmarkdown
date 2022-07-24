@@ -1,0 +1,441 @@
+---
+title: Using reactable in TidyTuesday CHAT dataset - World Energy Production
+author: Jesús Vélez Santiago
+date: '2022-07-23'
+slug: []
+categories: [R, dataviz]
+tags: [R, dataviz, TidyTuesday]
+---
+
+```{r include-result}
+#| echo: false
+#| eval: false
+
+htmltools::includeHTML("./energy-production-table-annotaded.html")
+```
+
+![Technology adoption in the world's energy production](./featured.png)
+
+The data this week comes from data.nber.org.
+
+This data is released under CCBY 4.0, please reference the CHAT dataset
+via: 10.3386/w15319.
+
+Per the working paper:
+
+> We present data on the global diffusion of technologies over time,
+> updating and adding to Comin and Mestieri's 'CHAT' database. We
+> analyze usage primarily based on per capita measures and divide
+> technologies into the two broad categories of production and
+> consumption. We conclude that there has been strong convergence in use
+> of consumption technologies with somewhat slower and more partial
+> convergence in production technologies. This reflects considerably
+> stronger global convergence in quality of life than in income, but we
+> note that universal convergence in use of production technologies is
+> not required for income convergence (only that countries are
+> approaching the technology frontier in the goods and services that
+> they produce).
+
+## Libraries
+
+```{r libraries}
+#| message: false
+#| warning: false
+library(tidyverse)
+library(reactable)
+library(reactablefmtr)
+library(tidytuesdayR)
+library(htmltools)
+library(htmlwidgets)
+library(countrycode)
+library(dataui)
+```
+
+## Load data
+
+```{r load-data}
+#| message: false
+#| warning: false
+#| results: false
+#| eval: true
+tuesdata <- tidytuesdayR::tt_load('2022-07-19')
+
+technology <- tuesdata$technology
+```
+
+```{r load-data-background}
+#| echo: false
+#| eval: false
+technology <- read_csv("technology.csv", show_col_types = FALSE)
+```
+
+```{r show-data-sample, eval=FALSE}
+#| echo: false
+set.seed(42)
+technology |>
+  slice_sample(n = 100) |> 
+  reactable(
+    sortable = TRUE,
+    resizable = TRUE,
+    filterable = TRUE,
+    searchable = TRUE,
+    striped = TRUE,
+    highlight = TRUE,
+    bordered = TRUE,
+    defaultPageSize = 5,
+    theme = reactableTheme(
+      borderColor = "#dfe2e5",
+      stripedColor = "#f6f8fa",
+      highlightColor = "#f0f5f9"
+    )
+  )
+```
+
+## Data preparation
+
+### General processing
+
+```{r general-preprocessing}
+technology_processed <- technology |> 
+  filter(
+    group == "Production",
+    category == "Energy",
+    variable != "electric_gen_capacity"
+  ) |>
+  mutate(
+    value = ifelse(
+      test = variable == "elec_cons",
+      yes = value / 1e9,
+      no = value
+    ),
+    is_source_energy = str_detect(
+      string = label,
+      pattern = "Electricity from"
+    ),
+    is_energy_statistic = !is_source_energy,
+    label = label |> 
+      str_remove(pattern = "Electricity from ") |> 
+      str_remove(" \\(TWH\\)") |> 
+      str_to_title()
+  ) |> 
+  left_join(
+    y = codelist |> 
+      select(
+        continent,
+        country_name = country.name.en,
+        iso3c,
+        flag = unicode.symbol
+      ),
+    by = "iso3c"
+  ) |> 
+  mutate(
+    country_name = paste(flag, country_name)
+  ) |> 
+  select(
+    country_name,
+    continent,
+    year,
+    label,
+    variable,
+    value,
+    is_source_energy,
+    is_energy_statistic
+  ) |> 
+  arrange(
+    continent,
+    country_name,
+    variable,
+    label,
+    year
+  )
+
+technology_processed
+```
+
+### Prepare overall values and list of trends
+
+```{r prepare-overall-values-and-list-of-trends}
+technology_processed_summarized <- technology_processed |> 
+  group_by(
+    continent,
+    country_name,
+    variable,
+    label
+  ) |> 
+  summarize(
+    overall_value = sum(value),
+    trend_values = list(value),
+    is_energy_statistic = first(is_energy_statistic),
+    is_source_energy = first(is_source_energy),
+    .groups = "drop"
+  )
+
+technology_processed_summarized
+```
+
+### Top energy producers
+
+```{r top-energy-producers}
+top_energy_producers <- technology_processed_summarized |> 
+  filter(is_energy_statistic) |> 
+  pivot_wider(
+    id_cols = c(continent, country_name),
+    names_from = variable,
+    values_from = overall_value
+  ) |> 
+  drop_na() |> 
+  slice_max(
+    elecprod,
+    n = 50
+  )
+
+top_energy_producers
+```
+
+### Global trends
+
+```{r global-trends}
+global_trends <- technology_processed_summarized |> 
+  filter(
+    country_name %in% top_energy_producers$country_name,
+    is_energy_statistic
+  ) |> 
+  pivot_wider(
+    id_cols = c(country_name, continent),
+    names_from = variable,
+    values_from = trend_values
+  ) |> 
+  inner_join(
+    y = top_energy_producers |> 
+      select(
+        country_name,
+        overall_consumption = elec_cons,
+        overall_production = elecprod
+      ),
+    by = "country_name"
+  ) |> 
+  arrange(desc(overall_production)) |> 
+  select(
+    country_name,
+    continent,
+    overall_production,
+    overall_consumption,
+    production_trends = elecprod,
+    consumption_trends = elec_cons
+  )
+
+global_trends
+```
+
+### Specific trends
+
+```{r specific-trends}
+specific_trends <- technology_processed_summarized |> 
+  filter(
+    country_name %in% top_energy_producers$country_name,
+    is_source_energy
+  ) |> 
+  mutate(
+    energy_source_color = case_when(
+      label %in% c("Coal", "Gas", "Nuclear", "Oil") ~ "#BB86FC",
+      TRUE ~ "#19ffb6"
+    )
+  ) |> 
+  arrange(desc(overall_value)) |> 
+  select(
+    country_name,
+    energy_source = label,
+    overall_value,
+    trend_values,
+    energy_source_color
+  )
+
+specific_trends
+```
+
+## Technology adoption in the world's energy production
+
+### Set global table appearance variables
+
+```{r set-global-table-appearance-variables}
+background_color <- "#121212"
+border_color <- "#3D3D3D"
+text_color <- "white"
+font_family <- "Atkinson Hyperlegible"
+
+production_color <- "#4DA1A9"
+consumption_color <- "#ffa630"
+
+reactable_theme <- reactableTheme(
+    style = list(fontFamily = font_family),
+    searchInputStyle = list(background = background_color),
+    pageButtonStyle = list(fontSize = 14),
+    backgroundColor = background_color,
+    color = text_color,
+    footerStyle = list(color = text_color, fontSize = 11),
+    borderColor = border_color,
+    borderWidth = 0.019
+)
+```
+
+### Create table
+
+```{r energy-production-table}
+energy_production_table <- global_trends |> 
+  reactable(
+    theme = reactable_theme,
+    columns = list(
+      country_name = colDef(
+        name = "Country"
+      ),
+      continent = colDef(
+        name = "Continent"
+      ),
+      overall_production = colDef(
+        name = "Overall production",
+        cell = data_bars(
+          data = select(global_trends, overall_production),
+          round_edges = TRUE,
+          text_position = "above",
+          fill_color = production_color,
+          bar_height = 12,
+          text_color = text_color,
+          number_fmt = scales::label_number(big.mark = ",")
+        )
+      ),
+      overall_consumption = colDef(
+        name = "Overall consumption",
+        cell = data_bars(
+          data = select(global_trends, overall_consumption),
+          round_edges = TRUE,
+          text_position = "above",
+          fill_color = consumption_color,
+          bar_height = 12,
+          text_color = text_color,
+          number_fmt = scales::label_number(big.mark = ",")
+        )
+      ),
+      production_trends = colDef(
+        name = "Production trends",
+        cell = react_sparkline(
+          data = select(global_trends, production_trends),
+          line_color = production_color,
+          show_area = TRUE
+        )
+      ),
+      consumption_trends = colDef(
+        name = "Consumption trends",
+        cell = react_sparkline(
+          data = select(global_trends, consumption_trends),
+          line_color = consumption_color,
+          show_area = TRUE
+        )
+      )
+    ),
+    showSortable = TRUE,
+    showSortIcon = TRUE,
+    defaultPageSize = 10,
+    details = function(index) {
+      
+      current_country <- global_trends$country_name[index]
+      current_country_table <- specific_trends |> 
+        filter(country_name == current_country) |> 
+        arrange(desc(overall_value))
+      
+      current_country_table |> 
+        reactable(
+          theme = reactable_theme,
+          columns = list(
+            country_name = colDef(
+              show = FALSE
+            ),
+            energy_source = colDef(
+              name = "Technology used",
+              vAlign = "center",
+              headerVAlign = "center",
+              align = "right",
+              cell = pill_buttons(
+                data = current_country_table,
+                color_ref = "energy_source_color"
+              )
+            ),
+            overall_value = colDef(
+              name = "Overall value",
+              cell = data_bars(
+                data = current_country_table,
+                round_edges = TRUE,
+                background = "transparent",
+                text_position = "outside-end",
+                text_color = text_color,
+                fill_gradient = FALSE,
+                fill_color_ref = "energy_source_color",
+                number_fmt = scales::label_number(big.mark = ","),
+                bar_height = 10
+              )
+            ),
+            trend_values = colDef(
+              name = "Production trend",
+              cell = react_sparkbar(
+                data = current_country_table,
+                fill_color_ref = "energy_source_color"
+              )
+            ),
+            energy_source_color = colDef(
+              show = FALSE
+            )
+          ),
+          showSortable = TRUE,
+          showSortIcon = TRUE,
+        )
+    }
+  ) |> 
+  google_font(
+    font_family = font_family
+  )
+
+text_annotation <- HTML("
+  <div style='vertical-align:middle;text-align:center;background-color:#121212;color:white;padding-top:25px;padding-bottom:4px;font-size:24px;'>
+  TECHNOLOGY ADOPTION IN THE WORLD'S ENERGY PRODUCTION
+  </div>
+  <div style='vertical-align:middle;text-align:center;background-color:#121212;color:#BBBBBB;padding-top:5px;padding-bottom:5px;font-size:20px;'>
+  Is your country <span style='color: #4DA1A9'>producing</span> more 
+  <span style='color: #19ffb6'>renewable energy</span> than
+  <span style='color: #BB86FC'>non-renewable energy</span>?
+  </div>
+  <div style='vertical-align:middle;text-align:center;background-color:#121212;color:#BBBBBB;padding-top:5px;padding-bottom:20px;font-size:16px;'>
+  Data shown on Terawatt-hour (TWh)
+  </div>
+  <div style='vertical-align:middle;text-align:center;background-color:#121212;color:#BBBBBB;padding-top:5px;padding-bottom:15px;font-size:14px;'>
+  Source: data.nber.org | Table: @jvelezmagic
+  </div>
+")
+
+energy_production_table_annotaded <- energy_production_table |>
+  prependContent(
+    text_annotation
+  )
+
+
+energy_production_table_annotaded
+```
+
+## Save table
+
+```{r save-table}
+#| message: false
+#| warning: false
+#| results: false
+reactablefmtr::save_reactable_test(
+  input = energy_production_table_annotaded,
+  output = "energy-production-table-annotaded.html"
+)
+```
+
+## Session info
+
+<details class="f6 fw7 input-reset">
+  <summary>Show/hide</summary>
+```{r session_info, echo=FALSE}
+sessioninfo::session_info()
+```
+</details>
