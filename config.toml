@@ -117,7 +117,7 @@ enableEmoji = true
   [[params.social]]
       icon      = "cv" # icon name without the 'fa-'
       icon_pack = "ai"
-      url       = "/files/cv.pdf"
+      url       = "/files/jvelezmagic_cv.pdf"
 
 [taxonomies]
   category = "categories"
