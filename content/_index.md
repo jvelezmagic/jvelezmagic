@@ -11,7 +11,7 @@ description: |
   Good! Let’s do it. Let’s be problem solvers. 👨‍💻 🧐 🦉 ✨
 image_left: false
 images:
-- img/profile.jpeg
+- img/profile.jpg
 show_action_link: true
 show_social_links: true
 subtitle: Genomic Scientist | Data Scientist
