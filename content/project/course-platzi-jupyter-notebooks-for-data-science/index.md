@@ -15,7 +15,7 @@ tags:
 - platzi
 - python
 - tutorial
-title: "Course: Working environment for Data Science with Jupyter Notebooks and Anaconda"
+title: "Course: Working environments for Data Science with Jupyter Notebooks and Anaconda"
 links:
 - icon: door-open
   icon_pack: fas
@@ -34,4 +34,3 @@ In this course you will learn:
 -   How to use [Conda
     environments](https://www.anaconda.com/products/distribution) for
     Data Science.
-
