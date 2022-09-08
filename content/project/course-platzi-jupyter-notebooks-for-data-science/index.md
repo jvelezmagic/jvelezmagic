@@ -15,7 +15,7 @@ tags:
 - platzi
 - python
 - tutorial
-title: "Course: Jupyter notebooks for data science"
+title: "Course: Working environment for Data Science with Jupyter Notebooks and Anaconda"
 links:
 - icon: door-open
   icon_pack: fas
@@ -24,3 +24,14 @@ links:
 ---
 
 ![Image description of course](featured_hex.jpeg)
+
+In this course you will learn:
+
+-   Different programming environments for Data Science.
+-   How to use [Google Colab](https://colab.research.google.com/).
+-   How to use [Deepnote](https://deepnote.com/).
+-   How to use and configure [VSCode](https://code.visualstudio.com/).
+-   How to use [Conda
+    environments](https://www.anaconda.com/products/distribution) for
+    Data Science.
+
