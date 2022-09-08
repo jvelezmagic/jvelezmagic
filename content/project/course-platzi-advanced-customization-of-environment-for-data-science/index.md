@@ -26,3 +26,9 @@ links:
 
 ![Image description of course](featured_hex.jpeg)
 
+In this course you will learn:
+
+- Use templates to organize your projects with `Cookiecutter`.
+- Create custom templates.
+- How to use path handlers like `OS`, `Pathlib`, and `PyFilesystem2`.
+- Understand an organized workflow while working with notebooks.
