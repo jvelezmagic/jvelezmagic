@@ -20,10 +20,10 @@ links:
 - icon: door-open
   icon_pack: fas
   name: Course link
-  url: https://platzi.com/clases/jupyter-notebook/
+  url: https://platzi.com/cursos/jupyter-notebook/
 ---
 
-![Image description of course](featured_hex.jpeg)
+![Image description of course](featured_hex.jpg)
 
 In this course you will learn:
 
