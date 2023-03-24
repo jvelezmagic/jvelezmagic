@@ -1,5 +1,5 @@
 ---
-date: "2022-09-08T00:00:00Z"
+date: "2021-05-23T00:00:00Z"
 title: "Bacterial filamentation: A bet for survival in stressful environments"
 summary: |
   We use mathematical modeling and computational simulations to evaluate
