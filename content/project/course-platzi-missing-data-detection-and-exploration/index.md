@@ -1,5 +1,5 @@
 ---
-date: "2022-09-10T00:00:00Z"
+date: "2022-09-09T00:00:00Z"
 summary: >
   In data science, you will always encounter incomplete
   datasets you must deal with. This course teaches you
