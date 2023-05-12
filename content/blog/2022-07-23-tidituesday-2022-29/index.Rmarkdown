@@ -18,10 +18,7 @@ htmltools::includeHTML("./energy-production-table-annotaded.html")
 
 ![Technology adoption in the world's energy production](./featured.png)
 
-The data this week comes from data.nber.org.
-
-This data is released under CCBY 4.0, please reference the CHAT dataset
-via: 10.3386/w15319.
+Energy production is a crucial aspect of our world's technological landscape. As we move towards a future of sustainable energy, we need to assess how different countries are progressing in terms of the technologies they adopt for energy production. In this blog post, we'll dive into some fascinating data obtained from the CHAT dataset, released under CCBY 4.0 and accessed via the National Bureau of Economic Research's website.
 
 Per the working paper:
 
@@ -38,7 +35,9 @@ Per the working paper:
 > approaching the technology frontier in the goods and services that
 > they produce).
 
-## Libraries
+## Preparing the Environment
+
+To analyze the data, we'll be using various packages in R, including `tidyverse` for data manipulation, `reactable` for creating interactive tables, `reactablefmtr` for enhancing our tables with sparklines and data bars, `tidytuesdayR` for accessing Tidy Tuesday datasets, `htmltools` and `htmlwidgets` for HTML content manipulation and widget creation, `countrycode` for converting country names and codes, and `dataui` for data visualization.
 
 ```{r libraries}
 #| message: false
@@ -53,7 +52,9 @@ library(countrycode)
 library(dataui)
 ```
 
-## Load data
+## Loading the Data
+
+The dataset we'll be using is a part of the Tidy Tuesday project, a weekly data project in R for data cleaning, wrangling, and visualization. The dataset, loaded using the `tidytuesdayR` package, contains information about the adoption of different technologies, specifically those related to energy production.
 
 ```{r load-data}
 #| message: false
@@ -70,6 +71,8 @@ technology <- tuesdata$technology
 #| eval: false
 technology <- read_csv("technology.csv", show_col_types = FALSE)
 ```
+
+Here's a sample of the data we're working with:
 
 ```{r show-data-sample, eval=FALSE}
 #| echo: false
@@ -93,9 +96,15 @@ technology |>
   )
 ```
 
-## Data preparation
+## Preparing the Data
+
+In data analysis, the preparation stage is critical to ensure that the data is in the right format and structure for the subsequent analysis. In our case, we're focusing on energy production technologies and have several steps to transform the raw data into a more digestible format.
 
 ### General processing
+
+The general processing stage involves filtering and reshaping our dataset. Specifically, we filter the data to focus on energy production, excluding data related to electricity generation capacity. We also perform transformations to adjust the units for electricity consumption and extract information from labels to distinguish between different energy sources and statistics.
+
+This information is then joined with a codelist that provides details such as the country name, continent, and a flag symbol. This enhances our dataset by adding relevant details and ensuring that the data is well-organized for our specific analysis.
 
 ```{r general-preprocessing}
 technology_processed <- technology |> 
@@ -156,6 +165,8 @@ technology_processed
 
 ### Prepare overall values and list of trends
 
+After the general processing, we summarize the data by calculating overall values for each technology and preparing a list of trends for each country. This provides a high-level view of energy production and consumption, allowing us to see which technologies are most prevalent and how these patterns have changed over time.
+
 ```{r prepare-overall-values-and-list-of-trends}
 technology_processed_summarized <- technology_processed |> 
   group_by(
@@ -177,6 +188,8 @@ technology_processed_summarized
 
 ### Top energy producers
 
+After the general processing, we summarize the data by calculating overall values for each technology and preparing a list of trends for each country. This provides a high-level view of energy production and consumption, allowing us to see which technologies are most prevalent and how these patterns have changed over time.
+
 ```{r top-energy-producers}
 top_energy_producers <- technology_processed_summarized |> 
   filter(is_energy_statistic) |> 
@@ -195,6 +208,8 @@ top_energy_producers
 ```
 
 ### Global trends
+
+To provide a comprehensive view of the energy landscape, we also prepare data for analyzing global trends in energy production and consumption. This involves selecting relevant countries from the top energy producers and pivoting the data to make it suitable for trend analysis.
 
 ```{r global-trends}
 global_trends <- technology_processed_summarized |> 
@@ -231,6 +246,10 @@ global_trends
 
 ### Specific trends
 
+Lastly, we prepare data for analyzing specific trends in the use of various energy sources. This involves filtering the data for countries that are among the top energy producers and that have detailed data on energy sources. We also assign colors to each energy source for visual distinction in later stages of our analysis.
+
+Through these steps, we've transformed our raw data into a well-structured and detailed dataset that's ready for in-depth analysis. In the next section, we'll be delving into data visualization, where we'll use this prepared data to create an interactive table that presents a comprehensive view of global energy production trends.
+
 ```{r specific-trends}
 specific_trends <- technology_processed_summarized |> 
   filter(
@@ -255,9 +274,14 @@ specific_trends <- technology_processed_summarized |>
 specific_trends
 ```
 
-## Technology adoption in the world's energy production
+
+## Visualizing the Data
+
+Data visualization is an essential tool in the world of data science. It provides a clear, concise way to understand patterns, trends, and insights that might not be immediately apparent in raw, numerical data. To better appreciate the complexities of our data, we'll now create an interactive table that showcases overall energy production and consumption trends across different countries and continents.
 
 ### Set global table appearance variables
+
+To start, we need to set up the overall appearance of our table. This involves defining the style elements such as font, color schemes, and border details. In our case, we have chosen a dark theme for our table, with a background color of `#121212`, border color of `#3D3D3D`, and text color of white. We've also selected the font `Atkinson Hyperlegible` for its superior readability. The colors for production and consumption data are #4DA1A9 and `#ffa630`, respectively, providing a clear distinction between the two.
 
 ```{r set-global-table-appearance-variables}
 background_color <- "#121212"
@@ -282,7 +306,15 @@ reactable_theme <- reactableTheme(
 
 ### Create table
 
-```{r energy-production-table}
+With our style elements set, we now move on to creating the actual table. The table is designed to be highly detailed and interactive, providing a wealth of information at a glance while also allowing for deeper dives into specific data points.
+
+Our table contains columns for country, continent, overall production, overall consumption, and respective trends. To make this data more digestible, we've used data bars for overall production and consumption, and sparklines for their trends.
+
+The table also features a details section that, when a specific country is selected, provides additional information about the specific energy technologies used in that country, their overall values, and production trends.
+
+The table is complemented by a text annotation at the top, providing a brief summary and context to the data displayed. It highlights the core question: "Is your country producing more renewable energy than non-renewable energy?"
+
+```{r energy-production-table, warning=FALSE}
 energy_production_table <- global_trends |> 
   reactable(
     theme = reactable_theme,
@@ -421,7 +453,9 @@ energy_production_table_annotaded <- energy_production_table |>
 energy_production_table_annotaded
 ```
 
-## Save table
+### Save table
+
+Finally, we save our table as an HTML file using the `save_reactable_test` function from the `reactablefmtr` package. This will allow us to easily share the table with others, or embed it in a webpage for public viewing.
 
 ```{r save-table}
 #| message: false
@@ -432,6 +466,8 @@ reactablefmtr::save_reactable_test(
   output = "energy-production-table-annotaded.html"
 )
 ```
+
+Through effective data visualization, we can better understand the state of global energy production, see which countries are leading the way in renewable energy, and observe how production and consumption trends have changed over time. Stay tuned as we dive deeper into this rich dataset in future posts!
 
 ## Session info
 
