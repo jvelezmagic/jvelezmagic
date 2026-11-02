@@ -305,11 +305,15 @@ const linkedin = socials.find((s) => s.label === 'LinkedIn')!;
     }
   }
   .chapter-copy {
-    opacity: 0.25;
-    transition: opacity 0.8s var(--ease-out-expo);
+    opacity: 0;
+    translate: 0 10px;
+    transition:
+      opacity 0.8s var(--ease-out-expo),
+      translate 0.8s var(--ease-out-expo);
   }
-  .chapter.lit .chapter-copy {
+  .chapter.seen .chapter-copy {
     opacity: 1;
+    translate: none;
   }
   @media (prefers-reduced-motion: reduce) {
     .graph-row :global(svg line),
@@ -322,6 +326,7 @@ const linkedin = socials.find((s) => s.label === 'LinkedIn')!;
     }
     .chapter-copy {
       opacity: 1;
+      translate: none;
     }
   }
 </style>
@@ -332,7 +337,11 @@ const linkedin = socials.find((s) => s.label === 'LinkedIn')!;
   const update = () => {
     ticking = false;
     const line = innerHeight * 0.62;
-    for (const r of rows) r.classList.toggle('lit', r.getBoundingClientRect().top < line);
+    for (const r of rows) {
+      const lit = r.getBoundingClientRect().top < line;
+      r.classList.toggle('lit', lit);
+      if (lit) r.classList.add('seen');
+    }
   };
   update();
   addEventListener('scroll', () => {

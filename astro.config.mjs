@@ -1,4 +1,3 @@
-// @ts-check
 import { defineConfig, fontProviders } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
@@ -7,6 +6,9 @@ import tailwindcss from '@tailwindcss/vite';
 export default defineConfig({
   site: 'https://jvelezmagic.com',
   integrations: [sitemap()],
+  build: {
+    inlineStylesheets: 'always',
+  },
   vite: {
     plugins: [tailwindcss()],
   },
@@ -16,14 +18,16 @@ export default defineConfig({
       name: 'Geist',
       cssVariable: '--font-geist',
       weights: ['300 700'],
-      subsets: ['latin', 'latin-ext'],
+      styles: ['normal'],
+      subsets: ['latin'],
     },
     {
       provider: fontProviders.fontsource(),
       name: 'Geist Mono',
       cssVariable: '--font-geist-mono',
-      weights: [400, 500],
-      subsets: ['latin', 'latin-ext'],
+      weights: [400],
+      styles: ['normal'],
+      subsets: ['latin'],
     },
   ],
 });
