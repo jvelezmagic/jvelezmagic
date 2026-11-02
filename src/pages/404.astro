@@ -8,6 +8,7 @@ const branches = [
   { name: 'about', href: '/#about', note: 'cat README.md', lane: 'science' },
   { name: 'story', href: '/#log', note: 'git log --graph', lane: 'engineering' },
   { name: 'projects', href: '/#projects', note: 'gh repo list --pinned', lane: 'teaching' },
+  { name: 'writing', href: '/blog', note: 'git log -- blog/', lane: 'engineering' },
   { name: 'contact', href: '/#contact', note: 'git remote -v', lane: 'science' },
 ] as const;
 
@@ -163,7 +164,8 @@ const NODE_Y = 22;
     projects: '/#projects',
     project: '/#projects',
     contact: '/#contact',
-    blog: '/#log',
+    blog: '/blog',
+    writing: '/blog',
     cv: '/#contact',
   };
   const distance = (a: string, b: string) => {

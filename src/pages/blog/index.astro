@@ -1,0 +1,95 @@
+---
+import Base from '../../layouts/Base.astro';
+import TopBar from '../../components/TopBar.astro';
+import { lanes, shortHash } from '../../lib/site';
+import { formatDate, getPosts, readingTime } from '../../lib/blog';
+
+const posts = await getPosts();
+const years = [...new Set(posts.map((p) => p.data.date.getUTCFullYear()))];
+const W = 76;
+const X = lanes.engineering.x;
+const NODE_Y = 34;
+---
+
+<Base title="Writing · Jesús Vélez Santiago" description="Notes on building AI products, data and the tools in between.">
+  <TopBar slot="header" />
+
+  <section class="mx-auto max-w-[1160px] px-6 pt-14 pb-24 md:pt-24 md:pb-32">
+    <header class="reveal is-in max-w-2xl">
+      <p class="label"><span class="text-eng">$</span> git log --oneline -- blog/</p>
+      <h1 class="mt-4 text-[clamp(2.75rem,7vw,4.75rem)] leading-[0.95] font-medium tracking-[-0.045em]">Writing</h1>
+      <p class="mt-6 text-lg leading-relaxed text-pretty text-mute md:text-xl">
+        Notes on building AI products, data and the tools in between. The older posts are kept as an archive.
+      </p>
+      <p class="label mt-6">
+        {posts.length} posts · <a href="/rss.xml" class="transition-colors hover:text-paper">rss ↗</a>
+      </p>
+    </header>
+
+    <div class="mt-16">
+      {
+        years.map((year) => (
+          <section aria-label={String(year)}>
+            <p class="label grid grid-cols-[76px_1fr] items-center py-4">
+              <span class="pl-1">{year}</span>
+              <span class="h-px bg-line" />
+            </p>
+            <ol>
+              {posts
+                .filter((p) => p.data.date.getUTCFullYear() === year)
+                .map((post) => {
+                  const hash = shortHash(post.id);
+                  return (
+                    <li class="relative">
+                      <svg class="pointer-events-none absolute inset-y-0 left-0 h-full overflow-visible" width={W} aria-hidden="true">
+                        <line x1={X} x2={X} y1="0" y2="100%" stroke={lanes.engineering.color} stroke-opacity="0.35" stroke-width="2" />
+                        <circle
+                          cx={X}
+                          cy={NODE_Y}
+                          r="5"
+                          fill={post.data.draft ? 'var(--color-ink)' : lanes.engineering.color}
+                          stroke={post.data.draft ? lanes.engineering.color : 'var(--color-ink)'}
+                          stroke-width={post.data.draft ? 2 : 3}
+                          stroke-dasharray={post.data.draft ? '3 3' : undefined}
+                        />
+                      </svg>
+                      <a
+                        href={`/blog/${post.id}/`}
+                        class="group grid grid-cols-[76px_1fr] rounded-lg transition-colors hover:bg-white/[0.025]"
+                      >
+                        <span />
+                        <span class="grid gap-x-10 gap-y-2 border-b border-line py-6 pr-4 md:grid-cols-[1fr_11rem]">
+                          <span class="min-w-0">
+                            <span class="flex flex-wrap items-center gap-x-3 gap-y-1">
+                              {post.data.draft && (
+                                <span class="rounded border border-eng/40 px-1.5 py-px font-mono text-[11px] text-eng">draft</span>
+                              )}
+                              <span class="text-xl leading-snug font-medium tracking-[-0.01em] text-balance transition-colors group-hover:text-eng md:text-[1.375rem]">
+                                {post.data.title}
+                              </span>
+                            </span>
+                            <span class="mt-2 block max-w-2xl text-[15px] leading-relaxed text-pretty text-mute">{post.data.summary}</span>
+                            {post.data.tags.length > 0 && (
+                              <span class="mt-3 flex flex-wrap gap-x-3 gap-y-1 font-mono text-xs text-faint">
+                                {post.data.tags.map((t) => <span>#{t.toLowerCase().replace(/\s+/g, '-')}</span>)}
+                              </span>
+                            )}
+                          </span>
+                          <span class="label order-first flex gap-3 md:order-none md:flex-col md:items-end md:gap-0.5 md:pt-1.5">
+                            <span class="text-paper/80">{formatDate(post.data.date)}</span>
+                            <span class="text-faint">
+                              {hash} · {readingTime(post)} min
+                            </span>
+                          </span>
+                        </span>
+                      </a>
+                    </li>
+                  );
+                })}
+            </ol>
+          </section>
+        ))
+      }
+    </div>
+  </section>
+</Base>

@@ -2,12 +2,16 @@ import { defineConfig, fontProviders } from 'astro/config';
 import sitemap from '@astrojs/sitemap';
 import tailwindcss from '@tailwindcss/vite';
 
-// https://astro.build/config
 export default defineConfig({
   site: 'https://jvelezmagic.com',
   integrations: [sitemap()],
   build: {
     inlineStylesheets: 'always',
+  },
+  markdown: {
+    shikiConfig: {
+      theme: 'github-dark-default',
+    },
   },
   vite: {
     plugins: [tailwindcss()],
