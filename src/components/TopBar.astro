@@ -33,7 +33,7 @@ const linkedin = socials.find((s) => s.label === 'LinkedIn')!;
       {
         links.map((l) => (
           <>
-            {l.page && <span class="mx-0.5 h-4 w-px bg-line max-[339px]:hidden min-[360px]:mx-1 sm:mx-2" aria-hidden="true" />}
+            {l.page && <span class="mx-3 hidden h-4 w-px bg-line sm:block" aria-hidden="true" />}
             <a
               href={l.href}
               class:list={['relative rounded-full px-1.5 py-1.5 transition-colors hover:text-paper min-[360px]:px-2.5 sm:px-3', !l.mobile && 'max-sm:hidden']}
