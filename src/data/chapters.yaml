@@ -1,0 +1,30 @@
+- id: init
+  from: 2020-01-01
+  command: git init
+  title: Code as a lab instrument
+  story: >-
+    It started in genomics. At Heidelberg's Saez Lab I spent a year building decoupleR, an R package
+    to infer biological activity from omics data — and found I liked building the instrument as much
+    as using it.
+- id: fork
+  from: 2021-04-01
+  command: git checkout -b teaching
+  title: Learning out loud
+  story: >-
+    I started teaching what I was learning: a live class on pandas, a talk on packaging code, and my
+    first Platzi courses. Meanwhile the science kept going, automating single-cell pipelines at La Jolla
+    Institute.
+- id: merge
+  from: 2022-01-01
+  command: git merge science
+  title: From the lab to products
+  story: >-
+    I branched into industry — analytics at Platzi, then automating infrastructure as an ML engineer at
+    Wannabe. decoupleR got published, and the science branch merged into main. It never really left.
+- id: head
+  from: 2023-01-01
+  command: HEAD → main
+  title: Designing AI products
+  story: >-
+    At uDocz I design and build the AI features people study with: flashcards, quizzes and summaries
+    made from their own documents. I still check the numbers like a statistician.

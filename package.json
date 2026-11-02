@@ -1,0 +1,28 @@
+{
+  "name": "jvelezmagic",
+  "type": "module",
+  "version": "0.0.1",
+  "engines": {
+    "bun": ">=1.4.4"
+  },
+  "scripts": {
+    "dev": "portless run astro dev --ignore-lock",
+    "dev:raw": "astro dev",
+    "build": "astro build",
+    "preview": "astro preview",
+    "check": "astro check"
+  },
+  "dependencies": {
+    "@astrojs/sitemap": "^3.7.4",
+    "@tailwindcss/vite": "^4.3.3",
+    "astro": "^7.4.4",
+    "tailwindcss": "^4.3.3"
+  },
+  "devDependencies": {
+    "@astrojs/check": "^0.9.12",
+    "portless": "^0.15.12",
+    "typescript": "^6.0.3"
+  },
+  "portless": "jvelezmagic",
+  "description": "Personal site of Jesús Vélez Santiago"
+}

@@ -1,0 +1,84 @@
+---
+import Logo from './Logo.astro';
+import { lanes, site } from '../lib/site';
+
+const legend = [
+  { ...lanes.engineering, y: '4.3%' },
+  { ...lanes.science, y: '18.8%' },
+  { ...lanes.teaching, y: '30.4%' },
+];
+---
+
+<section id="intro" class="mx-auto grid max-w-[1160px] items-center gap-10 px-6 pt-8 pb-16 md:pt-14 lg:min-h-[calc(100dvh-4rem)] lg:grid-cols-[1fr_auto] lg:gap-16 lg:pb-28">
+  <div class="order-2 text-center lg:order-1 lg:text-left">
+    <p class="label">~/{site.handle}</p>
+    <h1 class="mt-6 text-[clamp(2.5rem,12vw,5.5rem)] leading-[0.95] font-medium tracking-[-0.045em] lg:text-[clamp(2.75rem,6.4vw,5.5rem)]">
+      Jesús<br />Vélez Santiago
+    </h1>
+    <p class="mx-auto mt-8 max-w-[34rem] text-lg leading-relaxed text-pretty text-mute md:text-xl lg:mx-0">
+      I design and build AI products. I start with someone stuck on a task and work backwards to
+      whatever model, data or interface gets them unstuck. Based in Mexico.
+    </p>
+
+    <a
+      href="#log"
+      class="group mt-10 inline-flex items-center gap-3 rounded-md border border-line px-4 py-2.5 font-mono text-sm transition-colors hover:border-faint"
+    >
+      <span class="text-eng">$</span> git log --graph
+      <span class="text-mute transition-transform group-hover:translate-y-0.5">↓</span>
+    </a>
+
+  </div>
+
+  <div
+    class="relative order-1 mx-auto w-full max-w-[560px] [--lw:30%] [--lx:calc(50%_+_var(--lw)/2_+_10px)] sm:[--lw:26%] lg:order-2 lg:mx-0 lg:w-[400px] lg:max-w-none lg:[--lw:52%] lg:[--lx:calc(var(--lw)_+_12px)]"
+  >
+    <div data-logo-draw class="mx-auto w-(--lw) lg:mx-0">
+      <Logo class="h-auto w-full" title="jvelezmagic logo" />
+    </div>
+    <ul aria-label="Logo traces">
+      {
+        legend.map((l, i) => (
+          <li
+            class="legend pointer-events-none absolute right-0 left-(--lx) flex items-center font-mono text-[11px] sm:text-xs lg:right-8"
+            style={`top:${l.y}; --i:${i}`}
+          >
+            <span class="mr-2 h-px flex-1 border-t border-dashed sm:mr-3" style={`border-color:${l.color}55`} />
+            <span class="w-[11ch] shrink-0" style={`color:${l.color}`}>{l.label}</span>
+          </li>
+        ))
+      }
+    </ul>
+  </div>
+</section>
+
+<style>
+  [data-logo-draw] :global(path) {
+    animation: trace-in 1.1s var(--ease-out-expo) both;
+  }
+  [data-logo-draw] :global(path[data-trace='middle']) {
+    animation-delay: 0.15s;
+  }
+  [data-logo-draw] :global(path[data-trace='inner']) {
+    animation-delay: 0.3s;
+  }
+  @keyframes trace-in {
+    from {
+      clip-path: inset(0 0 100% 0);
+    }
+    to {
+      clip-path: inset(0 0 0 0);
+    }
+  }
+  .legend {
+    transform: translateY(-50%);
+    animation: legend-in 0.7s var(--ease-out-expo) both;
+    animation-delay: calc(0.8s + var(--i) * 0.12s);
+  }
+  @keyframes legend-in {
+    from {
+      opacity: 0;
+      transform: translate(-8px, -50%);
+    }
+  }
+</style>

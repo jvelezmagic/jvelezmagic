@@ -1,0 +1,57 @@
+---
+import { Image } from 'astro:assets';
+import portrait from '../assets/profile.jpg';
+
+const facts: [string, string][] = [
+  ['Based', 'Mexico · remote'],
+  ['Languages', 'Spanish, English'],
+  ['Writes', 'Python, TypeScript, SQL, R'],
+  ['Off-hours', 'Camping, sunsets, starry nights'],
+];
+---
+
+<section id="about" class="mx-auto max-w-[1160px] border-t border-line px-6 py-24 md:py-32">
+  <div class="grid gap-14 md:grid-cols-[minmax(0,380px)_1fr] md:gap-20">
+    <figure class="reveal relative">
+      <Image
+        src={portrait}
+        alt="Jesús, arms crossed, wearing a black T-shirt with the jvelezmagic logo"
+        widths={[400, 760]}
+        sizes="(min-width: 768px) 380px, 90vw"
+        class="aspect-[4/5] w-full rounded-lg object-cover object-top ring-1 ring-line"
+      />
+    </figure>
+
+    <div class="reveal">
+      <p class="label"><span class="text-eng">$</span> cat README.md</p>
+      <h2 class="mt-4 text-3xl leading-tight font-medium tracking-[-0.03em] text-balance md:text-[2.5rem]">About</h2>
+      <div class="mt-6 max-w-xl space-y-5 text-lg leading-relaxed text-pretty text-mute">
+        <p>
+          I'm Jesús — online, <span class="text-paper">jvelezmagic</span>. I trained as a genomic
+          scientist, modeling bacteria and decoding single cells, and slowly followed the data into
+          software.
+        </p>
+        <p>
+          Today I design and build AI products, starting from the problem rather than the model. Along
+          the way I co-built <span class="text-paper">decoupleR</span>, taught data science on Platzi,
+          and reached the finals of a couple of AI hackathons.
+        </p>
+        <p>
+          The "magic" in my handle is half a joke: I still love the moment a messy pile of data turns
+          into something people can actually use.
+        </p>
+      </div>
+
+      <dl class="mt-10 grid max-w-xl gap-x-8 border-t border-line sm:grid-cols-2">
+        {
+          facts.map(([k, v]) => (
+            <div class="flex items-baseline justify-between gap-4 border-b border-line py-3">
+              <dt class="label">{k}</dt>
+              <dd class="text-right text-sm text-balance">{v}</dd>
+            </div>
+          ))
+        }
+      </dl>
+    </div>
+  </div>
+</section>

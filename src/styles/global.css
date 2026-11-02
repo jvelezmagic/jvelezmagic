@@ -1,0 +1,99 @@
+@import 'tailwindcss';
+
+@theme {
+  --color-ink: #09090d;
+  --color-ink-2: #111117;
+  --color-paper: #ededf0;
+  --color-mute: #8b8b98;
+  --color-faint: #5b5b66;
+  --color-line: rgb(255 255 255 / 0.08);
+  --color-cobalt: #457af3;
+  --color-eng: #36a7df;
+  --color-sci: #55d7f9;
+  --color-teach: #457af3;
+
+  --font-sans: var(--font-geist), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-geist-mono), ui-monospace, monospace;
+
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    background: var(--color-ink);
+    color: var(--color-paper);
+    scroll-behavior: smooth;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  body {
+    font-family: var(--font-sans);
+    overflow-x: clip;
+  }
+
+  section[id],
+  footer[id] {
+    scroll-margin-top: 4.5rem;
+  }
+
+  ::selection {
+    background: var(--color-cobalt);
+    color: white;
+  }
+
+  :focus-visible {
+    outline: 2px solid var(--color-cobalt);
+    outline-offset: 3px;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@layer components {
+  .label {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    letter-spacing: 0.02em;
+    color: var(--color-mute);
+  }
+
+  .link {
+    color: var(--color-paper);
+    text-decoration: underline;
+    text-decoration-color: var(--color-line);
+    text-underline-offset: 4px;
+    transition: text-decoration-color 0.2s;
+  }
+  .link:hover {
+    text-decoration-color: var(--color-cobalt);
+  }
+
+  .reveal {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity 0.8s var(--ease-out-expo),
+      transform 0.8s var(--ease-out-expo);
+  }
+  .reveal.is-in {
+    opacity: 1;
+    transform: none;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .reveal {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
