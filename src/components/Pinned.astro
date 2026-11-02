@@ -1,0 +1,100 @@
+---
+import { getCollection } from 'astro:content';
+
+const kindOrder = { 'open-source': 0, hackathon: 1, research: 2 };
+const projects = (await getCollection('projects')).sort(
+  (a, b) => kindOrder[a.data.kind] - kindOrder[b.data.kind] || b.data.stars - a.data.stars || b.data.year - a.data.year,
+);
+
+const token = import.meta.env.GITHUB_TOKEN;
+const stars = new Map<string, number>(
+  await Promise.all(
+    projects.map(async (p): Promise<[string, number]> => {
+      if (!p.data.repo) return [p.id, p.data.stars];
+      try {
+        const res = await fetch(`https://api.github.com/repos/${p.data.repo}`, {
+          headers: token ? { Authorization: `Bearer ${token}` } : {},
+          signal: AbortSignal.timeout(3000),
+        });
+        if (!res.ok) return [p.id, p.data.stars];
+        const json = (await res.json()) as { stargazers_count?: number };
+        return [p.id, json.stargazers_count ?? p.data.stars];
+      } catch {
+        return [p.id, p.data.stars];
+      }
+    }),
+  ),
+);
+
+const langColor: Record<string, string> = {
+  Python: '#3572A5',
+  R: '#198CE7',
+  TypeScript: '#3178C6',
+};
+const kindLabel = { 'open-source': 'open source', hackathon: 'hackathon', research: 'research' };
+---
+
+<section id="projects" class="mx-auto max-w-[1160px] border-t border-line px-6 py-24 md:py-32">
+  <header class="reveal max-w-2xl">
+    <p class="label"><span class="text-eng">$</span> gh repo list --pinned</p>
+    <h2 class="mt-4 text-3xl leading-tight font-medium tracking-[-0.03em] text-balance md:text-[2.5rem]">Side projects</h2>
+    <p class="mt-4 text-lg leading-relaxed text-pretty text-mute">
+      Things I built outside the day job: open source, hackathon finals and research.
+    </p>
+  </header>
+
+  <ul class="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    {
+      projects.map((p, i) => {
+        const d = p.data;
+        const owner = d.repo?.split('/')[0];
+        const count = stars.get(p.id) ?? 0;
+        return (
+          <li class="reveal" style={`transition-delay:${(i % 3) * 60}ms`}>
+            <a
+              href={d.url}
+              target="_blank"
+              rel="noopener"
+              class="group flex h-full flex-col rounded-lg bg-ink-2/60 p-5 ring-1 ring-line transition-all duration-300 hover:-translate-y-0.5 hover:bg-ink-2 hover:ring-white/15"
+            >
+              <div class="flex items-start justify-between gap-3">
+                <p class="flex min-w-0 items-start gap-2 font-mono text-sm leading-snug">
+                  <svg viewBox="0 0 16 16" class="mt-px size-4 shrink-0 fill-faint" aria-hidden="true">
+                    <path d="M2 2.5A2.5 2.5 0 0 1 4.5 0h8.75a.75.75 0 0 1 .75.75v12.5a.75.75 0 0 1-.75.75h-2.5a.75.75 0 0 1 0-1.5h1.75v-2h-8a1 1 0 0 0-.714 1.7.75.75 0 1 1-1.072 1.05A2.495 2.495 0 0 1 2 11.5Zm10.5-1h-8a1 1 0 0 0-1 1v6.708A2.486 2.486 0 0 1 4.5 9h8ZM5 12.25a.25.25 0 0 1 .25-.25h3.5a.25.25 0 0 1 .25.25v3.25a.25.25 0 0 1-.4.2l-1.45-1.087a.249.249 0 0 0-.3 0L5.4 15.7a.25.25 0 0 1-.4-.2Z" />
+                  </svg>
+                  <span class="min-w-0 break-words">
+                    {owner && owner !== 'jvelezmagic' && <span class="text-mute">{owner}/</span>}
+                    <span class="text-sci group-hover:underline group-hover:underline-offset-4">{d.title}</span>
+                  </span>
+                </p>
+                {d.award ? (
+                  <span class="shrink-0 rounded-full bg-cobalt/15 px-2 py-0.5 font-mono text-[11px] text-sci">★ {d.award}</span>
+                ) : (
+                  <span class="shrink-0 rounded-full border border-line px-2 py-0.5 font-mono text-[11px] text-faint">{kindLabel[d.kind]}</span>
+                )}
+              </div>
+              <p class="mt-3 flex-1 text-[15px] leading-relaxed text-pretty text-mute">{d.blurb}</p>
+              <p class="mt-5 flex items-center gap-4 font-mono text-xs text-faint">
+                {d.language && (
+                  <span class="flex items-center gap-1.5">
+                    <span class="size-2.5 rounded-full" style={`background:${langColor[d.language] ?? '#8b8b98'}`} />
+                    {d.language}
+                  </span>
+                )}
+                {d.repo && count > 0 && (
+                  <span class="flex items-center gap-1">
+                    <svg viewBox="0 0 16 16" class="size-3.5 fill-current" aria-hidden="true">
+                      <path d="M8 .25a.75.75 0 0 1 .673.418l1.882 3.815 4.21.612a.75.75 0 0 1 .416 1.279l-3.046 2.97.719 4.192a.751.751 0 0 1-1.088.791L8 12.347l-3.766 1.98a.75.75 0 0 1-1.088-.79l.72-4.194L.818 6.374a.75.75 0 0 1 .416-1.28l4.21-.611L7.327.668A.75.75 0 0 1 8 .25Z" />
+                    </svg>
+                    {count}
+                  </span>
+                )}
+                <span class="ml-auto">{d.year}</span>
+              </p>
+            </a>
+          </li>
+        );
+      })
+    }
+  </ul>
+</section>

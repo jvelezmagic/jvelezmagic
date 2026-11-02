@@ -1,0 +1,138 @@
+- id: udocz
+  date: 2023-06-01
+  lane: engineering
+  kind: role
+  head: true
+  title: ML Engineer & Python Developer
+  org: uDocz
+  blurb: Retrieval-augmented generation over ~1M documents, real-time AI flashcards and quizzes, and the Airflow + dbt pipelines behind them.
+  tags: [Python, FastAPI, LangChain, Postgres, Redis]
+  links:
+    - { label: uDocz, url: https://www.udocz.com }
+  diff:
+    - "+ RAG over ~1M documents: LangChain, FastAPI, Postgres, Redis, open-source embeddings"
+    - "+ real-time AI flashcards and quizzes generated from each document"
+    - "+ summaries tuned for SEO and for readers"
+    - "+ Airflow + dbt pipelines with observability"
+- id: rag-course
+  date: 2023-10-02
+  lane: teaching
+  kind: course
+  title: Advanced document handling & retrieval with LangChain
+  org: Course
+  blurb: Hands-on course (in Spanish) on chunking, retrieval and RAG techniques.
+  links:
+    - { label: Code, url: https://github.com/jvelezmagic/langchain-advanced-document-handling-retrieval-techniques-course }
+- id: wannabe
+  date: 2022-09-01
+  lane: engineering
+  kind: role
+  title: Machine Learning Engineer
+  org: Wannabe
+  blurb: Deployment from fully manual to fully automated (GitHub Actions, Docker, Kubernetes); infra cost down 75%, API errors down 90%.
+  tags: [TypeScript, NestJS, GraphQL, Kubernetes]
+  diff:
+    - "- manual deploys"
+    - "+ fully automated CI/CD: GitHub Actions, Docker, Kubernetes"
+    - "+ infra cost -75%"
+    - "+ GraphQL APIs (NestJS, Apollo tracing), error rate -90%"
+- id: missing-data
+  date: 2022-09-09
+  lane: teaching
+  kind: course
+  title: "Missing data: detection, exploration & imputation"
+  org: Platzi
+  blurb: Two-part course on finding, understanding and imputing missing values.
+  links:
+    - { label: Part 1, url: https://platzi.com/cursos/datos-faltantes/ }
+    - { label: Part 2, url: https://platzi.com/cursos/datos-faltantes-imputacion/ }
+- id: eda
+  date: 2022-09-08
+  lane: teaching
+  kind: course
+  title: Exploratory data analysis
+  org: Platzi
+  links:
+    - { label: Course, url: https://platzi.com/cursos/analisis-exploratorio-datos-nuevo/ }
+- id: merge-science
+  date: 2022-03-15
+  lane: science
+  kind: merge
+  title: Merge branch 'science' into main
+  blurb: From research labs to building products — the science never left.
+- id: decoupler-paper
+  date: 2022-03-08
+  lane: science
+  kind: paper
+  title: "decoupleR: ensemble of methods to infer biological activities"
+  org: Bioinformatics Advances
+  blurb: Published the package I co-built at the Saez Lab.
+  links:
+    - { label: Paper, url: https://doi.org/10.1093/bioadv/vbac016 }
+    - { label: Code, url: https://github.com/saezlab/decoupleR }
+- id: platzi-analyst
+  date: 2022-01-01
+  lane: engineering
+  kind: role
+  title: Data Analyst
+  org: Platzi
+  blurb: KPI dashboards in Metabase & Superset and new course-evaluation metrics; halved data extraction time.
+  tags: [SQL, Redshift, Metabase]
+  diff:
+    - "- decisions based on assumptions"
+    - "+ KPI dashboards in Metabase and Superset"
+    - "+ new course-evaluation metrics across Redshift, Postgres, Tinybird"
+    - "+ data extraction time -50%"
+- id: lji
+  date: 2021-10-01
+  lane: science
+  kind: role
+  title: Bioinformatics Specialist
+  org: La Jolla Institute for Immunology
+  blurb: Automated single-cell pipelines and reports so researchers could explore their own data.
+  tags: [R, Python, single-cell]
+  diff:
+    - "- manual cleaning and normalization"
+    - "+ automated single-cell pipelines and experiment reports"
+    - "+ tested, documented internal libraries"
+- id: packages-talk
+  date: 2021-06-08
+  lane: teaching
+  kind: talk
+  title: Start creating packages to share your code
+  org: Saez Lab
+  links:
+    - { label: Video, url: https://youtu.be/AwX1OJbIjzQ }
+- id: platzi-courses-2021
+  date: 2021-05-24
+  lane: teaching
+  kind: course
+  title: Environments for data science — Jupyter, Conda & beyond
+  org: Platzi
+  blurb: Two courses on setting up productive, reproducible data science workbenches.
+  links:
+    - { label: Jupyter & Anaconda, url: https://platzi.com/cursos/jupyter-notebook/ }
+    - { label: Advanced environments, url: https://platzi.com/clases/entorno-ciencia-datos/ }
+- id: pandas-live
+  date: 2021-04-07
+  lane: teaching
+  kind: talk
+  title: Pandas and its ecosystem
+  org: Platzi Live
+  links:
+    - { label: Code, url: https://github.com/jvelezmagic/titanic_platzi }
+- id: heidelberg
+  date: 2020-08-01
+  lane: science
+  kind: role
+  title: R Software Developer
+  org: Heidelberg University · Saez Lab
+  blurb: Co-built decoupleR — 10+ statistical methods in one framework; Bioconductor acceptance went from ~3 months to 2 weeks.
+  tags: [R, Bioconductor]
+  links:
+    - { label: Bioconductor, url: https://bioconductor.org/packages/release/bioc/html/decoupleR.html }
+  diff:
+    - "+ 10+ statistical methods in one framework (decoupleR)"
+    - "+ test-driven, cross-platform R package"
+    - "- ~3 months to Bioconductor acceptance"
+    - "+ 2 weeks to Bioconductor acceptance"

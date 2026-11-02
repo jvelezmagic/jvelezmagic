@@ -1,0 +1,74 @@
+- id: decoupler
+  title: decoupleR
+  repo: saezlab/decoupleR
+  kind: open-source
+  year: 2021
+  language: R
+  stars: 313
+  blurb: Infer biological activities from omics data with an ensemble of statistical methods. Co-built at the Saez Lab; on Bioconductor.
+  url: https://github.com/saezlab/decoupleR
+- id: cookiecutter
+  title: cookiecutter-conda-data-science
+  repo: jvelezmagic/cookiecutter-conda-data-science
+  kind: open-source
+  year: 2021
+  language: Python
+  stars: 89
+  blurb: An opinionated project template for data science with Conda and Jupyter.
+  url: https://github.com/jvelezmagic/cookiecutter-conda-data-science
+- id: flow-genius
+  title: Flow Genius
+  repo: jvelezmagic/flow-genius
+  kind: hackathon
+  award: Finalist
+  year: 2023
+  language: Python
+  stars: 3
+  blurb: No-code builder for conversational bots. AI21 Labs Hackathon.
+  url: https://lablab.ai/event/ai21-labs-hackathon-2/the-astro-cats-trophes/flow-genius
+- id: cultivate
+  title: Cultivate
+  repo: jvelezmagic/cultivate-server
+  kind: hackathon
+  award: Finalist
+  year: 2023
+  language: TypeScript
+  blurb: AI interviewer that screens candidates for culture fit. ChatGPT & Whisper API Hackathon.
+  url: https://lablab.ai/event/chatgpt-api-and-whisper-api-global-hackathon/team101/cultivate
+- id: careconnect
+  title: CareConnect
+  kind: hackathon
+  year: 2023
+  blurb: Care assistant that teaches teens with type 1 diabetes about their condition, grounded in doctors' documentation.
+  url: https://lablab.ai/event/ai-startup-hackathon-episode-2/health-hub/careconnect
+- id: pandas-missing
+  title: pandas-missing
+  repo: jvelezmagic/pandas-missing
+  kind: open-source
+  year: 2022
+  language: Python
+  stars: 1
+  blurb: A pandas extension to explore and handle missing values.
+  url: https://github.com/jvelezmagic/pandas-missing
+- id: platzi-reviews
+  title: platzi-reviews-server
+  repo: jvelezmagic/platzi-reviews-server
+  kind: open-source
+  year: 2023
+  language: TypeScript
+  blurb: GraphQL server over 1M+ scraped course reviews.
+  url: https://github.com/jvelezmagic/platzi-reviews-server
+- id: filamentation
+  title: Bacterial filamentation
+  repo: jvelezmagic/bacterial-filamentation-research
+  kind: research
+  year: 2021
+  blurb: Modeling how growing long — instead of dividing — helps bacteria survive toxic environments.
+  url: https://jvelezmagic.github.io/bacterial-filamentation-research/
+- id: biomath
+  title: Biomaths in times of coronavirus
+  repo: jvelezmagic/biomath
+  kind: research
+  year: 2020
+  blurb: ODE models searching for an optimal lockdown span for Mexico City.
+  url: https://github.com/jvelezmagic/biomath

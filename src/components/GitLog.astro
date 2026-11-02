@@ -1,0 +1,358 @@
+---
+import { getCollection, type CollectionEntry } from 'astro:content';
+import { lanes, shortHash, socials, type Lane } from '../lib/site';
+
+const entries = (await getCollection('log')).sort(
+  (a, b) => Number(b.data.head) - Number(a.data.head) || +b.data.date - +a.data.date,
+);
+const chapters = (await getCollection('chapters')).sort((a, b) => +a.data.from - +b.data.from);
+const chapterOf = (date: Date) => chapters.findLastIndex((c) => +c.data.from <= +date);
+
+type Row =
+  | { type: 'chapter'; chapter: CollectionEntry<'chapters'>; n: number; i: number }
+  | { type: 'commit'; entry: CollectionEntry<'log'>; i: number };
+
+const rows: Row[] = [];
+entries.forEach((entry, i) => {
+  const n = chapterOf(entry.data.date);
+  const prev = i > 0 ? chapterOf(entries[i - 1].data.date) : -1;
+  if (n !== prev && n >= 0) rows.push({ type: 'chapter', chapter: chapters[n], n, i });
+  rows.push({ type: 'commit', entry, i });
+});
+
+const span = (lane: Lane) => {
+  const idx = entries.flatMap((e, i) => (e.data.lane === lane ? [i] : []));
+  return { lo: Math.min(...idx), hi: Math.max(...idx) };
+};
+const spans = { engineering: span('engineering'), science: span('science'), teaching: span('teaching') };
+
+const NODE_Y = 27;
+const W = 76;
+const M = lanes.engineering.x;
+
+type Seg = { d: string; color: string } | { x: number; y1: number | string; y2: number | string; color: string };
+
+const below = (from: number, to: number) =>
+  `M ${from} ${NODE_Y + 6} C ${from} ${NODE_Y + 18}, ${to} ${NODE_Y + 12}, ${to} ${NODE_Y + CURVE}`;
+const CURVE = 24;
+
+function commitSegments(i: number): Seg[] {
+  const out: Seg[] = [];
+  for (const lane of Object.keys(lanes) as Lane[]) {
+    const { lo, hi } = spans[lane];
+    const { x, color, forkFrom, mergeInto } = lanes[lane];
+    if (i < lo || i > hi) continue;
+    if (mergeInto && i === lo) {
+      out.push({ d: below(lanes[mergeInto].x, x), color });
+      if (i < hi) out.push({ x, y1: NODE_Y + CURVE, y2: '100%', color });
+      continue;
+    }
+    if (i > lo) out.push({ x, y1: 0, y2: NODE_Y, color });
+    if (forkFrom && i === hi) {
+      out.push({ d: below(x, lanes[forkFrom].x), color });
+    } else if (i < hi) {
+      out.push({ x, y1: NODE_Y, y2: '100%', color });
+    }
+  }
+  return out;
+}
+
+function passThrough(i: number): Seg[] {
+  return (Object.keys(lanes) as Lane[])
+    .filter((lane) => spans[lane].lo < i && i <= spans[lane].hi)
+    .map((lane) => ({ x: lanes[lane].x, y1: 0, y2: '100%', color: lanes[lane].color }));
+}
+
+const fmt = (d: Date) => d.toLocaleDateString('en-US', { month: 'short', year: 'numeric', timeZone: 'UTC' });
+const kindLabel = { role: 'role', paper: 'research', course: 'course', talk: 'talk', merge: 'merge' };
+const commits = entries.filter((e) => e.data.kind !== 'merge').length;
+const linkedin = socials.find((s) => s.label === 'LinkedIn')!;
+---
+
+<section id="log" class="mx-auto max-w-[1160px] border-t border-line px-6 py-24 md:py-32">
+  <header class="reveal flex flex-wrap items-end justify-between gap-8">
+    <div class="max-w-2xl">
+      <p class="label"><span class="text-eng">$</span> git log --graph</p>
+      <h2 class="mt-4 text-3xl leading-tight font-medium tracking-[-0.03em] text-balance md:text-[2.5rem]">The story so far</h2>
+      <p class="mt-4 text-lg leading-relaxed text-pretty text-mute">
+        Building AI products today. It started in a genomics lab, with a lot of teaching along the way.
+      </p>
+      <p class="label mt-6">
+        {commits} commits · 3 branches · 1 merge · since {entries.at(-1)!.data.date.getUTCFullYear()}
+      </p>
+    </div>
+    <div class="flex flex-wrap gap-2" role="group" aria-label="Highlight a lane">
+      {
+        (Object.keys(lanes) as Lane[]).map((k) => (
+          <button
+            type="button"
+            data-lane-filter={k}
+            aria-pressed="false"
+            class="flex items-center gap-2 rounded-full border border-line px-3 py-1.5 font-mono text-xs text-mute transition-colors hover:text-paper aria-pressed:border-current aria-pressed:text-paper"
+          >
+            <span class="size-2 rounded-full" style={`background:${lanes[k].color}`} />
+            {lanes[k].label}
+          </button>
+        ))
+      }
+    </div>
+  </header>
+
+  <ol class="mt-16" data-log>
+    <li class="graph-row relative grid grid-cols-[76px_1fr]" data-lane="engineering">
+      <svg class="absolute inset-y-0 left-0 h-full overflow-visible" width={W} aria-hidden="true">
+        <line x1={M} x2={M} y1={NODE_Y} y2="100%" stroke={lanes.engineering.color} stroke-width="2" stroke-dasharray="3 5" />
+        <circle class="node" cx={M} cy={NODE_Y} r="6" fill="var(--color-ink)" stroke={lanes.engineering.color} stroke-width="2" stroke-dasharray="3 3" />
+      </svg>
+      <span />
+      <div class="border-b border-line pt-4 pb-8">
+        <p class="font-mono text-sm text-mute">
+          <span class="text-faint">???????</span> · git commit -m "<span class="text-paper">your idea here</span>"
+        </p>
+        <p class="mt-2 max-w-xl text-[15px] leading-relaxed text-pretty text-mute">
+          The next commit isn't written yet. If you're working on an AI product, or a problem that might
+          become one, it could be ours.
+        </p>
+        <a href={linkedin.url} target="_blank" rel="noopener" class="mt-4 inline-block rounded-md bg-paper px-4 py-2 text-sm font-medium text-ink transition-opacity hover:opacity-85">
+          Message me on LinkedIn ↗
+        </a>
+      </div>
+    </li>
+
+    {
+      rows.map((row) => {
+        if (row.type === 'chapter') {
+          return (
+            <li class="graph-row chapter relative grid grid-cols-[76px_1fr]" data-chapter>
+              <svg class="absolute inset-y-0 left-0 h-full overflow-visible" width={W} aria-hidden="true">
+                {passThrough(row.i).map((s) => 'x' in s && (
+                  <line x1={s.x} x2={s.x} y1={s.y1} y2={s.y2} stroke={s.color} stroke-width="2" />
+                ))}
+                {row.i === 0 && (
+                  <line x1={M} x2={M} y1="0" y2="100%" stroke={lanes.engineering.color} stroke-width="2" stroke-dasharray="3 5" />
+                )}
+              </svg>
+              <span />
+              <div class="chapter-copy pt-16 pb-10 md:pt-24">
+                <p class="font-mono text-sm text-eng">
+                  <span class="text-faint">{String(row.n + 1).padStart(2, '0')} ·</span> {row.chapter.data.command}
+                </p>
+                <h3 class="mt-3 text-2xl leading-tight font-medium tracking-[-0.02em] text-balance md:text-[2rem]">
+                  {row.chapter.data.title}
+                </h3>
+                <p class="mt-4 max-w-2xl text-[17px] leading-relaxed text-pretty text-mute">{row.chapter.data.story}</p>
+              </div>
+            </li>
+          );
+        }
+
+        const { entry, i } = row;
+        const d = entry.data;
+        const nodeLane: Lane = d.kind === 'merge' ? (lanes[d.lane].mergeInto ?? d.lane) : d.lane;
+        const color = lanes[nodeLane].color;
+        const nx = lanes[nodeLane].x;
+        const hash = shortHash(entry.id);
+        const Wrapper = d.diff.length ? 'details' : 'div';
+        return (
+          <li
+            class="graph-row group relative grid grid-cols-[76px_1fr] transition-opacity duration-300"
+            data-lane={d.lane}
+          >
+            <svg class="absolute inset-y-0 left-0 h-full overflow-visible" width={W} aria-hidden="true">
+              {commitSegments(i).map((s) =>
+                'd' in s ? (
+                  <path d={s.d} fill="none" stroke={s.color} stroke-width="2" />
+                ) : (
+                  <line x1={s.x} x2={s.x} y1={s.y1} y2={s.y2} stroke={s.color} stroke-width="2" />
+                ),
+              )}
+              {d.head && (
+                <>
+                  <line x1={M} x2={M} y1="0" y2={NODE_Y} stroke={color} stroke-width="2" stroke-dasharray="3 5" />
+                  <circle class="head-ring" cx={nx} cy={NODE_Y} r="11" fill="none" stroke={color} stroke-width="2" />
+                </>
+              )}
+              <circle
+                class="node"
+                cx={nx}
+                cy={NODE_Y}
+                r={d.head ? 6 : 5}
+                fill={d.kind === 'merge' ? 'var(--color-ink)' : color}
+                stroke={d.kind === 'merge' ? color : 'var(--color-ink)'}
+                stroke-width={d.kind === 'merge' ? 2 : 3}
+              />
+            </svg>
+            <span />
+            <Wrapper class="commit group/commit border-b border-line">
+                {d.diff.length ? (
+                  <summary class="block cursor-pointer list-none py-4 [&::-webkit-details-marker]:hidden">
+                    <div class="grid gap-x-8 gap-y-1 md:grid-cols-[1fr_9rem]">
+                      <div class="min-w-0">
+                        <h4 class="flex flex-wrap items-center gap-x-2.5 gap-y-1 leading-snug font-medium text-balance">
+                          {d.head && (
+                            <span class="rounded border px-1.5 py-px font-mono text-[11px]" style={`color:${color};border-color:${color}55`}>
+                              HEAD → main
+                            </span>
+                          )}
+                          {d.title}
+                          {d.org && <span class="w-full font-normal text-mute sm:w-auto"><span class="hidden sm:inline">· </span>{d.org}</span>}
+                        </h4>
+                        {d.blurb && <p class="mt-1.5 max-w-2xl text-[15px] leading-relaxed text-pretty text-mute">{d.blurb}</p>}
+                        <p class="mt-2 font-mono text-xs" style={`color:${color}`}>
+                          <span class="group-open/commit:hidden">git show {hash} ↓</span>
+                          <span class="hidden group-open/commit:inline">close ↑</span>
+                        </p>
+                      </div>
+                      <p class="label order-first flex gap-3 md:order-none md:flex-col md:items-end md:gap-0.5 md:pt-0.5">
+                        <span class="text-paper/80">{d.head ? 'now' : fmt(d.date)}</span>
+                        <span class="text-faint">{hash} · {kindLabel[d.kind]}</span>
+                      </p>
+                    </div>
+                  </summary>
+                ) : (
+                  <div class="grid gap-x-8 gap-y-1 py-4 md:grid-cols-[1fr_9rem]">
+                    <div class="min-w-0">
+                      <h4 class:list={['flex flex-wrap items-center gap-x-2.5 gap-y-1 leading-snug text-balance', d.kind === 'merge' ? 'font-mono text-sm text-mute' : 'font-medium']}>
+                        {d.title}
+                        {d.org && <span class="w-full font-normal text-mute sm:w-auto"><span class="hidden sm:inline">· </span>{d.org}</span>}
+                        {d.award && <span class="rounded bg-cobalt/15 px-1.5 py-px font-mono text-[11px] text-sci">★ {d.award}</span>}
+                      </h4>
+                      {d.blurb && <p class="mt-1.5 max-w-2xl text-[15px] leading-relaxed text-pretty text-mute">{d.blurb}</p>}
+                      {d.links.length > 0 && (
+                        <p class="mt-2 flex flex-wrap gap-x-4 gap-y-1 font-mono text-xs">
+                          {d.links.map((l) => (
+                            <a href={l.url} target="_blank" rel="noopener" class="underline decoration-line underline-offset-4 hover:decoration-current" style={`color:${color}`}>
+                              {l.label} ↗
+                            </a>
+                          ))}
+                        </p>
+                      )}
+                    </div>
+                    <p class="label order-first flex gap-3 md:order-none md:flex-col md:items-end md:gap-0.5 md:pt-0.5">
+                      <span class="text-paper/80">{fmt(d.date)}</span>
+                      <span class="text-faint">{hash} · {kindLabel[d.kind]}</span>
+                    </p>
+                  </div>
+                )}
+                {d.diff.length > 0 && (
+                  <div class="mb-5 overflow-x-auto rounded-lg bg-ink-2 p-4 font-mono text-[13px] leading-relaxed ring-1 ring-line">
+                    <p style={`color:${color}`}>
+                      commit {hash}{d.head && ' (HEAD → main)'}
+                    </p>
+                    <p class="text-faint">Date:   {d.head ? `${fmt(d.date)} → now` : fmt(d.date)}</p>
+                    <p class="mt-3 mb-3 pl-4 text-paper">{d.title} @ {d.org}</p>
+                    {d.diff.map((line) => (
+                      <p class:list={[line.startsWith('-') ? 'text-[#f47a8b]/80' : 'text-sci']}>{line}</p>
+                    ))}
+                    {(d.links.length > 0 || d.tags.length > 0) && (
+                      <p class="mt-3 flex flex-wrap gap-x-4 text-xs text-faint">
+                        {d.links.map((l) => (
+                          <a href={l.url} target="_blank" rel="noopener" class="underline decoration-line underline-offset-4 hover:text-paper">{l.label} ↗</a>
+                        ))}
+                        {d.tags.length > 0 && <span>{d.tags.join(' · ')}</span>}
+                      </p>
+                    )}
+                  </div>
+                )}
+            </Wrapper>
+          </li>
+        );
+      })
+    }
+
+  </ol>
+</section>
+
+<style>
+  .graph-row :global(svg line),
+  .graph-row :global(svg path) {
+    stroke-opacity: 0.16;
+    transition: stroke-opacity 0.7s var(--ease-out-expo);
+  }
+  .graph-row :global(.node) {
+    transform-box: fill-box;
+    transform-origin: center;
+    transform: scale(0.6);
+    opacity: 0.35;
+    transition:
+      transform 0.6s var(--ease-out-expo),
+      opacity 0.6s var(--ease-out-expo);
+  }
+  .graph-row.lit :global(svg line),
+  .graph-row.lit :global(svg path) {
+    stroke-opacity: 1;
+  }
+  .graph-row.lit :global(.node) {
+    transform: none;
+    opacity: 1;
+  }
+  .graph-row :global(.head-ring) {
+    stroke-opacity: 0;
+  }
+  .graph-row.lit :global(.head-ring) {
+    stroke-opacity: 0.35;
+    animation: pulse 2.4s ease-out infinite;
+    transform-box: fill-box;
+    transform-origin: center;
+  }
+  @keyframes pulse {
+    70% {
+      transform: scale(1.5);
+      stroke-opacity: 0;
+    }
+    100% {
+      stroke-opacity: 0;
+    }
+  }
+  .chapter-copy {
+    opacity: 0.25;
+    transition: opacity 0.8s var(--ease-out-expo);
+  }
+  .chapter.lit .chapter-copy {
+    opacity: 1;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .graph-row :global(svg line),
+    .graph-row :global(svg path) {
+      stroke-opacity: 1;
+    }
+    .graph-row :global(.node) {
+      transform: none;
+      opacity: 1;
+    }
+    .chapter-copy {
+      opacity: 1;
+    }
+  }
+</style>
+
+<script>
+  const rows = [...document.querySelectorAll<HTMLElement>('.graph-row')];
+  let ticking = false;
+  const update = () => {
+    ticking = false;
+    const line = innerHeight * 0.62;
+    for (const r of rows) r.classList.toggle('lit', r.getBoundingClientRect().top < line);
+  };
+  update();
+  addEventListener('scroll', () => {
+    if (!ticking) {
+      ticking = true;
+      requestAnimationFrame(update);
+    }
+  }, { passive: true });
+  addEventListener('resize', update);
+
+  const log = document.querySelector<HTMLElement>('[data-log]')!;
+  const buttons = [...document.querySelectorAll<HTMLButtonElement>('[data-lane-filter]')];
+  let active: string | null = null;
+  for (const b of buttons) {
+    b.addEventListener('click', () => {
+      active = active === b.dataset.laneFilter ? null : b.dataset.laneFilter!;
+      buttons.forEach((x) => x.setAttribute('aria-pressed', String(x.dataset.laneFilter === active)));
+      for (const row of log.querySelectorAll<HTMLElement>('[data-lane]')) {
+        row.style.opacity = active && row.dataset.lane !== active ? '0.22' : '';
+      }
+    });
+  }
+</script>

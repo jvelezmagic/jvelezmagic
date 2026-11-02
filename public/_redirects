@@ -1,0 +1,23 @@
+/about              /#about       301
+/about/*            /#about       301
+
+/project/course-platzi-advanced-customization-of-environment-for-data-science  /#log  301
+/project/course-platzi-exploratory-data-analysis  /#log  301
+/project/course-platzi-jupyter-notebooks-for-data-science  /#log  301
+/project/course-platzi-missing-data-detection-and-exploration  /#log  301
+/project/course-platzi-missing-data-imputation  /#log  301
+/project            /#projects    301
+/project/*          /#projects    301
+/talk               /#log         301
+/talk/*             /#log         301
+
+/blog               /             301
+/blog/*             /             301
+/post/*             /             301
+
+/form/*             /#contact     301
+/license            /             301
+/terms              /             301
+
+/files/jvelezmagic_cv.pdf        /jvelezmagic_cv.pdf  301
+/media/files/jvelezmagic_cv.pdf  /jvelezmagic_cv.pdf  301

@@ -1,0 +1,50 @@
+---
+import Base from '../layouts/Base.astro';
+import TopBar from '../components/TopBar.astro';
+import Hero from '../components/Hero.astro';
+import GitLog from '../components/GitLog.astro';
+import Pinned from '../components/Pinned.astro';
+import About from '../components/About.astro';
+import Contact from '../components/Contact.astro';
+import { getImage } from 'astro:assets';
+import portrait from '../assets/profile.jpg';
+import { site, socials } from '../lib/site';
+
+const photo = await getImage({ src: portrait, width: 800, format: 'jpg' });
+const person = {
+  '@context': 'https://schema.org',
+  '@type': 'Person',
+  name: site.name,
+  alternateName: site.handle,
+  url: Astro.site!.href,
+  image: new URL(photo.src, Astro.site).href,
+  description: site.description,
+  homeLocation: { '@type': 'Country', name: 'Mexico' },
+  knowsAbout: ['AI product design', 'Machine learning', 'Retrieval-augmented generation', 'Data science'],
+  sameAs: socials.map((s) => s.url),
+};
+---
+
+<Base>
+  <script type="application/ld+json" slot="head" set:html={JSON.stringify(person)} />
+  <TopBar slot="header" />
+  <Hero />
+  <About />
+  <GitLog />
+  <Pinned />
+  <Contact />
+</Base>
+
+<script>
+  const io = new IntersectionObserver(
+    (entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        e.target.classList.add('is-in');
+        io.unobserve(e.target);
+      }
+    },
+    { rootMargin: '0px 0px -8% 0px' },
+  );
+  document.querySelectorAll('.reveal').forEach((el) => io.observe(el));
+</script>

@@ -1,0 +1,161 @@
+---
+import Logo from './Logo.astro';
+import { lanes, site, socials } from '../lib/site';
+
+const links = [
+  { href: '/#about', label: 'About' },
+  { href: '/#log', label: 'Story' },
+  { href: '/#projects', label: 'Projects' },
+  { href: '/#contact', label: 'Contact' },
+];
+const linkedin = socials.find((s) => s.label === 'LinkedIn')!;
+---
+
+<header id="topbar" class="group/bar pointer-events-none sticky top-0 z-50 h-16 px-3 sm:px-6">
+  <div data-pill class="pointer-events-auto relative mx-auto flex h-16 max-w-[1112px] items-center justify-between gap-2 px-3 sm:gap-4 sm:px-0">
+    <a href="/#intro" class="flex shrink-0 items-center text-[15px] font-medium tracking-tight" aria-label="Back to top">
+      <Logo class="h-6 w-auto" />
+      <span
+        class="ml-2.5 max-w-40 overflow-hidden whitespace-nowrap transition-all duration-500 ease-out-expo group-data-[stuck]/bar:ml-0 group-data-[stuck]/bar:max-w-0 group-data-[stuck]/bar:opacity-0"
+      >
+        {site.handle}
+      </span>
+    </a>
+
+    <nav class="relative flex items-center text-[13px] text-mute sm:text-sm" aria-label="Sections">
+      <span
+        data-indicator
+        class="absolute top-1/2 left-0 h-8 -translate-y-1/2 rounded-full opacity-0 ring-1 ring-inset transition-[translate,width,opacity,background-color,box-shadow] duration-500 ease-out-expo"
+        aria-hidden="true"
+      >
+      </span>
+      {
+        links.map((l, i) => (
+          <a
+            href={l.href}
+            class:list={['relative rounded-full px-2 py-1.5 transition-colors hover:text-paper min-[360px]:px-2.5 sm:px-3', i === links.length - 1 && 'max-sm:hidden']}
+            data-nav={l.href.split('#')[1]}
+          >
+            {l.label}
+          </a>
+        ))
+      }
+    </nav>
+
+    <a
+      href={linkedin.url}
+      target="_blank"
+      rel="noopener"
+      class="shrink-0 overflow-hidden rounded-full bg-paper text-[13px] font-medium whitespace-nowrap text-ink transition-all duration-500 ease-out-expo hover:bg-white max-sm:max-w-0 max-sm:opacity-0 max-sm:group-data-[stuck]/bar:max-w-32 max-sm:group-data-[stuck]/bar:opacity-100"
+    >
+      <span class="block px-3.5 py-1.5">Let's talk ↗</span>
+    </a>
+
+    <div
+      class="pointer-events-none absolute inset-x-6 bottom-0 h-px overflow-hidden opacity-0 transition-opacity duration-500 group-data-[stuck]/bar:opacity-100"
+      aria-hidden="true"
+    >
+      <div
+        data-progress
+        class="h-full w-full origin-left scale-x-0"
+        style={`background:linear-gradient(90deg, ${lanes.engineering.color}, ${lanes.science.color}, ${lanes.teaching.color})`}
+      >
+      </div>
+    </div>
+  </div>
+</header>
+
+<style>
+  [data-pill] {
+    transition-property: max-width, height, translate, padding, border-radius, background-color, box-shadow, backdrop-filter;
+    transition-duration: 0.5s;
+    transition-timing-function: var(--ease-out-expo);
+  }
+  #topbar[data-stuck] [data-pill] {
+    translate: 0 0.5rem;
+    height: 3rem;
+    max-width: 560px;
+    border-radius: 9999px;
+    padding-inline: 0.875rem 0.375rem;
+    background-color: color-mix(in oklab, var(--color-ink) 70%, transparent);
+    box-shadow:
+      inset 0 0 0 1px rgb(255 255 255 / 0.1),
+      0 8px 32px -12px rgb(0 0 0 / 0.8);
+    backdrop-filter: blur(24px);
+  }
+  [data-nav][aria-current='true'] {
+    color: var(--color-paper);
+  }
+</style>
+
+<script>
+  import { lanes, type Lane } from '../lib/site';
+
+  const bar = document.getElementById('topbar')!;
+  const nav = bar.querySelector<HTMLElement>('nav')!;
+  const indicator = bar.querySelector<HTMLElement>('[data-indicator]')!;
+  const progress = bar.querySelector<HTMLElement>('[data-progress]')!;
+  const navLinks = [...bar.querySelectorAll<HTMLElement>('[data-nav]')];
+  const rows = [...document.querySelectorAll<HTMLElement>('#log .graph-row[data-lane]')];
+  const sections = ['about', 'log', 'projects', 'contact']
+    .map((id) => document.getElementById(id))
+    .filter((el): el is HTMLElement => !!el);
+
+  let placed = false;
+
+  function placeIndicator(active: HTMLElement | undefined, lane: Lane | null) {
+    if (!active || !active.offsetWidth) {
+      indicator.style.opacity = '0';
+      return;
+    }
+    if (!placed) indicator.style.transitionDuration = '0s';
+    indicator.style.translate = `${active.offsetLeft}px -50%`;
+    indicator.style.width = `${active.offsetWidth}px`;
+    indicator.style.opacity = '1';
+    const color = lane ? lanes[lane].color : 'rgb(255 255 255)';
+    indicator.style.backgroundColor = `color-mix(in oklab, ${color} ${lane ? 16 : 7}%, transparent)`;
+    indicator.style.boxShadow = `inset 0 0 0 1px color-mix(in oklab, ${color} ${lane ? 35 : 10}%, transparent)`;
+    if (!placed) {
+      void indicator.offsetWidth;
+      indicator.style.transitionDuration = '';
+      placed = true;
+    }
+  }
+
+  function update() {
+    bar.toggleAttribute('data-stuck', scrollY > 4);
+
+    const line = innerHeight * 0.4;
+    const max = document.documentElement.scrollHeight - innerHeight;
+    progress.style.scale = `${max > 0 ? Math.min(1, scrollY / max) : 0} 1`;
+
+    const atEnd = max > 0 && scrollY >= max - 2;
+    const current = atEnd ? sections.at(-1) : sections.filter((s) => s.getBoundingClientRect().top <= line).pop();
+    navLinks.forEach((a) => a.setAttribute('aria-current', String(a.dataset.nav === current?.id)));
+
+    let lane: Lane | null = null;
+    if (current?.id === 'log') {
+      lane = 'engineering';
+      for (const r of rows) {
+        if (r.getBoundingClientRect().top > line) break;
+        lane = r.dataset.lane as Lane;
+      }
+    }
+    placeIndicator(navLinks.find((a) => a.dataset.nav === current?.id), lane);
+  }
+
+  let ticking = false;
+  const schedule = () => {
+    if (ticking) return;
+    ticking = true;
+    requestAnimationFrame(() => {
+      ticking = false;
+      update();
+    });
+  };
+  update();
+  addEventListener('scroll', schedule, { passive: true });
+  addEventListener('resize', schedule);
+  new ResizeObserver(schedule).observe(nav);
+  document.fonts?.ready.then(schedule);
+</script>

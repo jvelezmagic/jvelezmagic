@@ -1,42 +1,46 @@
-### Hi there, I'm Jesús 👋
+# jvelezmagic.com
 
-## I'm a Data Scientist / Genomic Scientist, Developer attempt, and Magician! 🎩
+Personal site of **Jesús Vélez Santiago**. The three circuit-trace J's of the logo are the site's
+structure: each trace is a lane in a `git log --graph` of everything I've shipped (engineering, `main`),
+studied (science) and taught (teaching).
 
-- 🦉 I'm always trying to learn something new 😂
-- 🗓 I'm always thinking about how to abstract the problems 👁
--  2022 Goals:
-    - 🦊 Learn more about Open Source projects and try to contribute to it 🤓
-    - 🤭 Understand and apply package development in R 🧐
-    - 😔 Survive 😔
-- ⚡️ Fun fact: I love camping, watching sunsets and starry nights. 🤗🌲🧡💛✨
-  
-## Connect with me
+- **Intro** — the logo draws in, its traces labelled as the three lanes
+- **About** — `cat README.md`: bio + illustrated portrait
+- **The story so far** — `git log --graph`, newest first, actual work only (jobs, papers, courses, talks):
+  a dashed ghost commit on top as the call to action, then four chapters counting down from `HEAD` to
+  `git init`, lanes that power on as you scroll, and `git show` diffs for each role
+- **Side projects** — `gh repo list --pinned`: open source, hackathons and research as GitHub-style pins;
+  star counts refresh from the GitHub API at build time (set `GITHUB_TOKEN` to avoid rate limits)
+- **Links** — GitHub, LinkedIn, X (no email or phone published, on purpose). `public/jvelezmagic_cv.pdf` (March 2024) is kept for old URLs but no longer linked
 
-[<img align="left" alt="jvelezmagic | Twitter" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/twitter.svg" />][twitter]
-[<img align="left" alt="jvelezmagic | Instagram" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/instagram.svg" />][instagram]
-[<img align="left" alt="jvelezmagic | LinkedIn" width="22px" src="https://cdn.jsdelivr.net/npm/simple-icons@v3/icons/linkedin.svg" />][linkedin]
-<br>
+## Stack
 
-## Languages and Tools:
+- [Astro 7](https://astro.build) — static output, content collections, Fonts API
+- Tailwind CSS v4 via `@tailwindcss/vite` (design tokens live in `src/styles/global.css`)
+- No UI framework; interactive bits are small vanilla scripts inside Astro components
+- Fonts: Geist, Geist Mono
+- [Bun](https://bun.sh) 1.4.4 as package manager and runtime (pinned in `mise.toml`; `bunfig.toml` runs every script on Bun)
+- [portless](https://github.com/vercel-labs/portless) for local dev
 
-<img align="left" alt="R" width="26px" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/r/r.png" />
-<img align="left" alt="Python" width="26px" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/python/python.png" />
-<img align="left" alt="Julia" width="26px" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/julia/julia.png" />
-<img align="left" alt="Visual Studio Code" width="26px" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/visual-studio-code/visual-studio-code.png" />
-<img align="left" alt="Rstudio" width="26px" src="https://avatars0.githubusercontent.com/u/513560?s=200&v=4" />
-<img align="left" alt="Conda" width="26px" src="https://avatars2.githubusercontent.com/u/6392739?s=200&v=4" />
-<img align="left" alt="Git" width="26px" src="https://raw.githubusercontent.com/github/explore/80688e429a7d4ef2fca1e82350fe8e3517d3494d/topics/git/git.png" />
-<img align="left" alt="Github" width="26px" src="https://raw.githubusercontent.com/github/explore/78df643247d429f6cc873026c0622819ad797942/topics/github/github.png" />
-<img align="left" alt="Terminal" width="26px" src="https://raw.githubusercontent.com/github/explore/78df643247d429f6cc873026c0622819ad797942/topics/terminal/terminal.png" />
+## Develop
 
-<br>
- 
- ## Spotify Playing 🎧
- 
- [![Spotify](https://novatorem.jvelez-s.vercel.app//api/spotify)](https://open.spotify.com/user/jvsmagic)
- 
- 
-<!-- Abbreviationss -->
-[twitter]: https://twitter.com/jvelezmagic
-[instagram]: https://instagram.com/jvelezmagic
-[linkedin]: https://www.linkedin.com/in/jvelezmagic/
+```sh
+bun install
+bun run dev        # → https://jvelezmagic.localhost:1355 (via portless)
+bun run dev:raw    # plain `astro dev` on a random port, no proxy
+bun run check && bun run build
+```
+
+`dev` passes `--ignore-lock` so Astro stays in the foreground under portless even when it detects an AI agent (Astro 7 otherwise auto-backgrounds and portless loses the child).
+
+## Editing content
+
+- `src/data/log.yaml` — every work entry (`lane`: engineering | science | teaching; `head: true` marks the current role; `diff` lines show in `git show`)
+- `src/data/chapters.yaml` — the four story chapters and their copy
+- `src/data/projects.yaml` — pinned side projects (`repo` enables live star counts)
+- `src/lib/site.ts` — name, socials, lane colours/positions
+- `src/components/Logo.astro` — the logo as inline SVG (one `<path>` per trace)
+
+## Art
+
+`src/assets/profile.jpg` is the portrait in the About section. The palette comes from the logo's three blues.
