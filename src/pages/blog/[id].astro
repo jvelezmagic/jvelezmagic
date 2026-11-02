@@ -1,0 +1,199 @@
+---
+import { Image } from 'astro:assets';
+import { render } from 'astro:content';
+import Base from '../../layouts/Base.astro';
+import TopBar from '../../components/TopBar.astro';
+import { shortHash, socials } from '../../lib/site';
+import { formatDate, getPosts, readingTime, type Post } from '../../lib/blog';
+
+export async function getStaticPaths() {
+  const posts = await getPosts();
+  return posts.map((post, i) => ({
+    params: { id: post.id },
+    props: { post, newer: posts[i - 1], older: posts[i + 1] },
+  }));
+}
+
+interface Props {
+  post: Post;
+  newer?: Post;
+  older?: Post;
+}
+
+const { post, newer, older } = Astro.props;
+const { Content, headings } = await render(post);
+const toc = headings.filter((h) => h.depth === 2 || h.depth === 3);
+const hash = shortHash(post.id);
+const linkedin = socials.find((s) => s.label === 'LinkedIn')!;
+---
+
+<Base title={`${post.data.title} · Jesús Vélez Santiago`} description={post.data.summary}>
+  <TopBar slot="header" />
+
+  <article class="mx-auto grid max-w-[1400px] px-6 pt-10 pb-24 md:pt-16 xl:grid-cols-[1fr_minmax(0,46rem)_1fr] xl:gap-x-12">
+    <div class="mx-auto w-full max-w-[46rem] min-w-0 xl:col-start-2">
+      <a href="/blog" class="label inline-flex items-center gap-2 transition-colors hover:text-paper">
+        <span aria-hidden="true">←</span> cd ../blog
+      </a>
+
+      <header class="mt-10">
+        <p class="label flex flex-wrap items-center gap-x-3 gap-y-1">
+          <span class="text-eng">commit {hash}</span>
+          <span>{formatDate(post.data.date, 'long')}</span>
+          <span aria-hidden="true">·</span>
+          <span>{readingTime(post)} min read</span>
+          {post.data.draft && <span class="rounded border border-eng/40 px-1.5 py-px text-eng">draft</span>}
+        </p>
+        <h1 class="mt-5 text-[clamp(2.25rem,5.2vw,3.75rem)] leading-[1.02] font-medium tracking-[-0.035em] text-balance">
+          {post.data.title}
+        </h1>
+        <p class="mt-6 text-lg leading-relaxed text-pretty text-mute md:text-xl">{post.data.summary}</p>
+        {
+          post.data.tags.length > 0 && (
+            <ul class="mt-7 flex flex-wrap gap-2" aria-label="Tags">
+              {post.data.tags.map((t) => (
+                <li class="rounded-full px-3 py-1 font-mono text-xs text-mute ring-1 ring-line">{t}</li>
+              ))}
+            </ul>
+          )
+        }
+      </header>
+
+      {
+        post.data.cover && (
+          <Image
+            src={post.data.cover}
+            alt={post.data.coverAlt ?? ''}
+            widths={[640, 960]}
+            sizes="(min-width: 768px) 768px, 100vw"
+            class="mt-12 aspect-[16/8] w-full rounded-xl object-cover ring-1 ring-line"
+          />
+        )
+      }
+
+      <div class="post mt-14 min-w-0">
+        <Content />
+      </div>
+
+      <footer class="mt-24 border-t border-line pt-10">
+        <div class="flex flex-col gap-5 sm:flex-row sm:items-center sm:justify-between">
+          <p class="text-lg text-pretty text-mute">Thoughts, corrections or a problem worth solving?</p>
+          <a
+            href={linkedin.url}
+            target="_blank"
+            rel="noopener"
+            class="shrink-0 self-start rounded-full bg-paper px-4 py-2 text-sm font-medium text-ink transition-colors hover:bg-white sm:self-auto"
+          >
+            Let's talk ↗
+          </a>
+        </div>
+
+        {
+          (newer || older) && (
+            <nav class="mt-12 grid gap-4 sm:grid-cols-2" aria-label="More posts">
+              {older && (
+                <a href={`/blog/${older.id}/`} class="group rounded-lg p-5 ring-1 ring-line transition-colors hover:bg-white/[0.03]">
+                  <span class="label">← older</span>
+                  <span class="mt-2 block leading-snug font-medium text-balance transition-colors group-hover:text-eng">{older.data.title}</span>
+                </a>
+              )}
+              {newer && (
+                <a href={`/blog/${newer.id}/`} class="group rounded-lg p-5 text-right ring-1 ring-line transition-colors hover:bg-white/[0.03] sm:col-start-2">
+                  <span class="label">newer →</span>
+                  <span class="mt-2 block leading-snug font-medium text-balance transition-colors group-hover:text-eng">{newer.data.title}</span>
+                </a>
+              )}
+            </nav>
+          )
+        }
+      </footer>
+    </div>
+
+    {
+      toc.length > 1 && (
+        <aside class="hidden xl:col-start-3 xl:row-start-1 xl:block">
+          <nav class="sticky top-28 w-56" aria-label="On this page">
+            <p class="label">On this page</p>
+            <ol class="mt-4 space-y-2 border-l border-line text-sm">
+              {toc.map((h) => (
+                <li>
+                  <a
+                    href={`#${h.slug}`}
+                    data-toc={h.slug}
+                    class:list={[
+                      'toc-link -ml-px block border-l-2 border-transparent leading-snug text-faint transition-[color,border-color] duration-300 hover:text-paper',
+                      h.depth === 2 ? 'pl-4' : 'pl-7',
+                    ]}
+                  >
+                    {h.text}
+                  </a>
+                </li>
+              ))}
+            </ol>
+          </nav>
+        </aside>
+      )
+    }
+  </article>
+</Base>
+
+<script>
+  const labels: Record<string, string> = { text: 'output', plaintext: 'output', sh: 'shell', bash: 'shell', ts: 'typescript', js: 'javascript', py: 'python', r: 'R' };
+
+  for (const pre of document.querySelectorAll<HTMLPreElement>('.post pre')) {
+    const lang = pre.dataset.language ?? 'text';
+    const figure = document.createElement('figure');
+    figure.className = 'code';
+    figure.dataset.output = String(labels[lang] === 'output');
+    const bar = document.createElement('figcaption');
+    const name = document.createElement('span');
+    name.textContent = labels[lang] ?? lang;
+    const copy = document.createElement('button');
+    copy.type = 'button';
+    copy.textContent = 'copy';
+    copy.addEventListener('click', async () => {
+      await navigator.clipboard.writeText(pre.innerText);
+      copy.textContent = 'copied';
+      setTimeout(() => (copy.textContent = 'copy'), 1400);
+    });
+    bar.append(name, copy);
+    pre.replaceWith(figure);
+    figure.append(bar, pre);
+  }
+
+  const links = [...document.querySelectorAll<HTMLAnchorElement>('[data-toc]')];
+  const targets = links
+    .map((a) => document.getElementById(a.dataset.toc!))
+    .filter((el): el is HTMLElement => !!el);
+
+  function spy() {
+    const line = innerHeight * 0.3;
+    const current = targets.filter((t) => t.getBoundingClientRect().top <= line).pop() ?? targets[0];
+    for (const a of links) a.toggleAttribute('data-active', a.dataset.toc === current?.id);
+  }
+
+  if (links.length) {
+    let ticking = false;
+    addEventListener(
+      'scroll',
+      () => {
+        if (ticking) return;
+        ticking = true;
+        requestAnimationFrame(() => {
+          ticking = false;
+          spy();
+        });
+      },
+      { passive: true },
+    );
+    spy();
+  }
+</script>
+
+<style>
+  .toc-link[data-active] {
+    border-color: var(--color-eng);
+    color: var(--color-eng);
+    font-weight: 500;
+  }
+</style>

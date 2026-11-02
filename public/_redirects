@@ -11,9 +11,8 @@
 /talk               /#log         301
 /talk/*             /#log         301
 
-/blog               /             301
-/blog/*             /             301
-/post/*             /             301
+/blog/2021-03-15-iris-dataset  /blog  301
+/post/*             /blog         301
 
 /form/*             /#contact     301
 /license            /             301
